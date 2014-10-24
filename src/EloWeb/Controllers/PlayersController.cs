@@ -13,7 +13,7 @@ namespace EloWeb.Controllers
         {
             var leaderboard = Players.All().OrderByDescending(p => p.Rating);
             if (!leaderboard.Any())
-                return Redirect("/Players/NewLeague");
+                return Redirect("~/Players/NewLeague");
 
             var players = Players.All();
             ViewData.Model = players.OrderBy(p => p.Name);
@@ -34,7 +34,7 @@ namespace EloWeb.Controllers
             var activePlayers = Players.Active();
 
             if (!activePlayers.Any())
-                return Redirect("/Players/NewLeague");
+                return Redirect("~/Players/NewLeague");
 
             var recordsView = new Records
             {
@@ -69,7 +69,7 @@ namespace EloWeb.Controllers
         {
             Players.Add(Player.CreateInitial(player.Name)); 
             PlayersData.PersistPlayer(player.Name);         
-            return Redirect("/Players");
+            return Redirect("~/Players");
         }
     }
 }

@@ -10,7 +10,7 @@ namespace EloWeb.Controllers
         {
             var leaderboard = Players.Active().OrderByDescending(p => p.Rating);
             if (!leaderboard.Any())
-                return Redirect("/Players/NewLeague");
+                return Redirect("~/Players/NewLeague");
 
             ViewData.Model = leaderboard;
             return View();

@@ -11,7 +11,7 @@ namespace EloWeb.Controllers
         {
             var table = Players.Active().OrderByDescending(p => p.Rating);
             if (!table.Any())
-                return Redirect("/Players/NewLeague");
+                return Redirect("~/Players/NewLeague");
 
             ViewData.Model = table;
             return View();
@@ -21,7 +21,7 @@ namespace EloWeb.Controllers
         {
             var table = Players.All().OrderByDescending(p => p.MaxRating);
             if (!table.Any())
-                return Redirect("/Players/NewLeague");
+                return Redirect("~/Players/NewLeague");
 
             ViewData.Model = table;
             return View();
@@ -31,7 +31,7 @@ namespace EloWeb.Controllers
         {
             var table = Players.All().OrderByDescending(p => p.WinRate);
             if (!table.Any())
-                return Redirect("/Players/NewLeague");
+                return Redirect("~/Players/NewLeague");
 
             ViewData.Model = table;
             return View();
@@ -41,7 +41,7 @@ namespace EloWeb.Controllers
         {
             var table = Players.Active().OrderByDescending(p => p.CurrentWinningStreak);
             if (!table.Any())
-                return Redirect("/Players/NewLeague");
+                return Redirect("~/Players/NewLeague");
 
             ViewData.Model = table;
             return View();
@@ -51,7 +51,7 @@ namespace EloWeb.Controllers
         {
             var table = Players.All().OrderByDescending(p => p.LongestWinningStreak);
             if (!table.Any())
-                return Redirect("/Players/NewLeague");
+                return Redirect("~/Players/NewLeague");
 
             ViewData.Model = table;
             return View();
@@ -61,7 +61,7 @@ namespace EloWeb.Controllers
         {
             var table = Players.Active().OrderByDescending(p => p.CurrentLosingStreak);
             if (!table.Any())
-                return Redirect("/Players/NewLeague");
+                return Redirect("~/Players/NewLeague");
 
             ViewData.Model = table;
             return View();
@@ -71,7 +71,7 @@ namespace EloWeb.Controllers
         {
             var table = Players.All().OrderByDescending(p => p.LongestLosingStreak);
             if (!table.Any())
-                return Redirect("/Players/NewLeague");
+                return Redirect("~/Players/NewLeague");
 
             ViewData.Model = table;
             return View();
