@@ -15,3 +15,15 @@ select,
 textarea {
     max-width: 280px;
 }
+
+ol {
+    list-style-type: upper-alpha;
+}
+
+ol ol {
+    list-style-type: decimal;
+}
+
+ol ol ol {
+    list-style-type: lower-roman;
+}

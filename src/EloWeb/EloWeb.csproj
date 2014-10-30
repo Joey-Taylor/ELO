@@ -88,6 +88,7 @@
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlayersController.cs" />
+    <Compile Include="Controllers\RulesController.cs" />
     <Compile Include="Controllers\TablesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -155,6 +156,7 @@
     <Content Include="Views\Tables\BestEverWinningStreak.cshtml" />
     <Content Include="Views\Tables\LosingStreak.cshtml" />
     <Content Include="Views\Tables\WorstEverLosingStreak.cshtml" />
+    <Content Include="Views\Rules\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
