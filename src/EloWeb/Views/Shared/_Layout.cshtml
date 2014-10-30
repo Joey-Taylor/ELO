@@ -8,7 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
     <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar navbar-inverse top-nav">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -28,12 +28,14 @@
                 </div>
             </div>
         </div>
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <a href="http://en.wikipedia.org/wiki/Elo_rating_system">Read all about the Elo Rating System</a>
-            </footer>
+        <div class="body-content">
+            <div class="container">
+                @RenderBody()
+                <hr />
+                <footer>
+                    <a href="http://en.wikipedia.org/wiki/Elo_rating_system">Read all about the Elo Rating System</a>
+                </footer>
+            </div>
         </div>
 
         @Scripts.Render("~/bundles/jquery")
