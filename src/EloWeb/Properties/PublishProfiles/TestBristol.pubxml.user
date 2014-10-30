@@ -10,7 +10,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/EloWeb.dll">
-      <publishTime>10/24/2014 09:39:47</publishTime>
+      <publishTime>10/30/2014 15:00:12</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>07/08/2013 16:15:08</publishTime>
@@ -48,8 +48,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/bootstrap.min.css">
       <publishTime>10/23/2014 16:33:10</publishTime>
     </File>
+    <File Include="Content/rack.gif">
+      <publishTime>10/30/2014 14:53:50</publishTime>
+    </File>
     <File Include="Content/Site.css">
-      <publishTime>10/23/2014 16:33:10</publishTime>
+      <publishTime>10/30/2014 14:45:29</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>10/23/2014 16:33:10</publishTime>
@@ -135,11 +138,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Players/Records.cshtml">
       <publishTime>10/23/2014 16:33:10</publishTime>
     </File>
+    <File Include="Views/Rules/Index.cshtml">
+      <publishTime>10/30/2014 14:59:52</publishTime>
+    </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>10/23/2014 16:33:10</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>10/23/2014 17:16:45</publishTime>
+      <publishTime>10/30/2014 14:45:29</publishTime>
     </File>
     <File Include="Views/Tables/BestEverWinningStreak.cshtml">
       <publishTime>10/23/2014 16:33:10</publishTime>
