@@ -81,7 +81,7 @@
 <hr/>
 
 <div>
-    <h3>Games Won</h3>
+    <h3>Games Won (@Model.GamesWon)</h3>
     <table class="table">
         @foreach (var opponent in Model.MostWinsAgainst)
         {
@@ -95,7 +95,7 @@
 </div>
 
 <div>
-    <h3>Games Lost</h3>
+    <h3>Games Lost (@Model.GamesLost)</h3>
     <table class="table">
         @foreach (var opponent in Model.MostLossesTo)
         {

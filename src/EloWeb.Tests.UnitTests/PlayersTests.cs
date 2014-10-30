@@ -9,10 +9,10 @@ namespace EloWeb.Tests.UnitTests
     class PlayersTests
     {
         [Test]
-        public void Can_parse_the_text_description_of_a_Player()
+        public void CanParsePlayerDescriptionText()
         {
-            Games.Initialise(new List<String>());
-            Players.Initialise(new List<String> { "Richard" });
+            InitialiseTestPlayers();
+            InitialiseTestGames();
 
             var player = Players.PlayerByName("Richard");
 
@@ -20,5 +20,36 @@ namespace EloWeb.Tests.UnitTests
             Assert.AreEqual(1000, player.Rating);
         }
 
+        [Test]
+        public void CanGetPlayerTotalGamesWon()
+        {
+            InitialiseTestPlayers();
+            InitialiseTestGames();
+            
+            var player = Players.PlayerByName("Frank");
+
+            Assert.AreEqual(2, player.GamesWon);
+        }
+
+        [Test]
+        public void CanGetPlayerTotalGamesLost()
+        {
+            InitialiseTestPlayers();
+            InitialiseTestGames();
+
+            var player = Players.PlayerByName("Frank");
+
+            Assert.AreEqual(1, player.GamesLost);
+        }
+
+        private void InitialiseTestPlayers()
+        {
+            Players.Initialise(new List<String>() { "Peter", "Frank", "Richard" });
+        }
+
+        private void InitialiseTestGames()
+        {
+            Games.Initialise(new List<String>() { "Peter beat Frank", "Frank beat Peter", "Frank beat Peter" });
+        }
     }
 }

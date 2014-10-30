@@ -130,6 +130,26 @@ namespace EloWeb.Models
             }            
         }
 
+        public int GamesWon
+        {
+            get
+            {
+                return Games.GamesByPlayer(Name)
+                   .Where(game => game.Winner == Name)
+                   .Count();  
+            }
+        }
+
+        public int GamesLost
+        {
+            get
+            {
+                return Games.GamesByPlayer(Name)
+                   .Where(game => game.Loser == Name)
+                   .Count();
+            }
+        }
+
         private string WinsAndLosses(IEnumerable<Game> games)
         {
             var results = games
