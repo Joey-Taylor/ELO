@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using EloWeb.Models;
 
 namespace EloWeb.Persist
 {
@@ -21,9 +22,9 @@ namespace EloWeb.Persist
             }
         }
 
-        public static void PersistGame(string game)
+        public static void PersistGame(Game game)
         {
-            File.AppendAllText(_path, game + "\n");
+            File.AppendAllText(_path, game.ToString() + "\n");
         }
     }
 }
