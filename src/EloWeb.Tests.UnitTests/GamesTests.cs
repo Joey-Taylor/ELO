@@ -9,7 +9,7 @@ namespace EloWeb.Tests.UnitTests
     public class GamesTests
     {
         [Test]
-        public void Can_parse_the_text_description_of_a_Game()
+        public void CanParseTheTextDescriptionOfAGame()
         {
             Games.Initialise(new List<String>{"A beat B"});
 
@@ -20,7 +20,7 @@ namespace EloWeb.Tests.UnitTests
         }
 
         [Test]
-        public void Can_generate_a_text_description_of_a_Game()
+        public void CanGenerateATextDescriptionOfAGame()
         {
             var game = new Game { Winner = "A", Loser = "B" };            
             Assert.AreEqual("A beat B", game.ToString());
@@ -28,7 +28,7 @@ namespace EloWeb.Tests.UnitTests
 
 
         [Test]
-        public void Can_store_a_list_of_games()
+        public void CanStoreAListOfGames()
         {
             Games.Initialise(new List<String> { "A beat B", "A beat C", "B beat C" } );
 
@@ -39,11 +39,11 @@ namespace EloWeb.Tests.UnitTests
                 new Game {Winner = "B", Loser = "C"},
             };
 
-            Assert.AreEqual(expected, Games.All());
+            Assert.AreEqual(expected, Games.All);
         }
 
         [Test]
-        public void Can_reinitialise_the_list_of_games()
+        public void CanReinitialiseTheListOfGames()
         {
             Games.Initialise(new List<String> { "D beat B", "B beat C", "C beat D" });
 
@@ -53,7 +53,7 @@ namespace EloWeb.Tests.UnitTests
                 new Game {Winner = "B", Loser = "C"},
                 new Game {Winner = "C", Loser = "D"},
             };
-            Assert.AreEqual(before, Games.All());
+            Assert.AreEqual(before, Games.All);
 
 
             Games.Initialise(new List<String> { "A beat B", "A beat C", "B beat C" });
@@ -65,12 +65,12 @@ namespace EloWeb.Tests.UnitTests
                 new Game {Winner = "B", Loser = "C"},
             };
 
-            Assert.AreEqual(after, Games.All());
+            Assert.AreEqual(after, Games.All);
         }
 
 
         [Test]
-        public void Can_add_a_game_to_the_list()
+        public void CanAddAGameToTheList()
         {
             Games.Initialise(new List<String>());
 
@@ -85,13 +85,13 @@ namespace EloWeb.Tests.UnitTests
                 new Game {Winner = "B", Loser = "C"},
             };
 
-            Assert.AreEqual(expected, Games.All());
+            Assert.AreEqual(expected, Games.All);
         }
 
 
 
         [Test]
-        public void Can_retrieve_n_most_recent_games()
+        public void CanRetrieveNMostRecentGames()
         {
             Games.Initialise(new List<String> { "A beat B", "A beat C", "B beat C" });
 
@@ -105,9 +105,10 @@ namespace EloWeb.Tests.UnitTests
         }
 
         [Test]
-        public void Can_retrieve_games_played_by_a_particular_player()
+        public void CanRetrieveGamesPlayedByAParticularPlayer()
         {
             Games.Initialise(new List<String> { "A beat B", "A beat C", "B beat C" });
+            var player = new Player {Name = "B"};
 
             var expected = new List<Game>
             {
@@ -115,7 +116,7 @@ namespace EloWeb.Tests.UnitTests
                 new Game {Winner = "B", Loser = "C"},
             };
 
-            Assert.AreEqual(expected, Games.GamesByPlayer("B"));
+            Assert.AreEqual(expected, Games.ByPlayer(player));
         }
 
 

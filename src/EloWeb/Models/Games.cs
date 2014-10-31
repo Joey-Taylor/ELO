@@ -23,26 +23,21 @@ namespace EloWeb.Models
             _games.Add(game);
         }
 
-        public static IEnumerable<Game> All()
+        public static IEnumerable<Game> All
         {
-            return _games.AsEnumerable();
+            get { return _games; }
         }
 
         public static IEnumerable<Game> MostRecent(int howMany, GamesSortOrder sortOrder)
         {
-            var games = _games.AsEnumerable()
-                .Reverse()
-                .Take(howMany);
+            var games = All.Reverse().Take(howMany);
 
-            if (sortOrder == GamesSortOrder.MostRecentLast)
-                return games.Reverse();
-
-            return games;
+            return sortOrder == GamesSortOrder.MostRecentLast ? games.Reverse() : games;
         }
 
-        public static IEnumerable<Game> GamesByPlayer(string name)
+        public static IEnumerable<Game> ByPlayer(Player player)
         {
-            return _games.Where(game => game.Winner == name || game.Loser == name);
+            return _games.Where(game => game.Winner == player.Name || game.Loser == player.Name);
         }
 
         public static IEnumerable<Game> WinsByPlayer(string name)
