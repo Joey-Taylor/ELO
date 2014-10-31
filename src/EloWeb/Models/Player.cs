@@ -27,12 +27,12 @@ namespace EloWeb.Models
 
         public int MaxRating
         {
-            get { return _ratings.Count > 0 ? 0 : _ratings.Max(); }
+            get { return _ratings.Count > 0 ? _ratings.Max() : 0; }
         }
 
         public int MinRating
         {
-            get { return _ratings.Count > 0 ? 0 : _ratings.Min(); }
+            get { return _ratings.Count > 0 ? _ratings.Min() : 0; }
         }
 
         public string RecentForm
