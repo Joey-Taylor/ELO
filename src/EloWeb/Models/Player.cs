@@ -134,9 +134,7 @@ namespace EloWeb.Models
         {
             get
             {
-                return Games.GamesByPlayer(Name)
-                   .Where(game => game.Winner == Name)
-                   .Count();  
+                return Games.WinsByPlayer(Name).Count();
             }
         }
 
@@ -144,9 +142,7 @@ namespace EloWeb.Models
         {
             get
             {
-                return Games.GamesByPlayer(Name)
-                   .Where(game => game.Loser == Name)
-                   .Count();
+                return Games.LossesByPlayer(Name).Count();
             }
         }
 
