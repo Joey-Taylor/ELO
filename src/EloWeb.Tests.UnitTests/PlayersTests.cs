@@ -8,12 +8,16 @@ namespace EloWeb.Tests.UnitTests
 {
     class PlayersTests
     {
-        [Test]
-        public void CanParsePlayerDescriptionText()
+        [TestFixtureSetUp]
+        public void TestSetup()
         {
             InitialiseTestPlayers();
             InitialiseTestGames();
+        }
 
+        [Test]
+        public void CanParsePlayerDescriptionText()
+        {   
             var player = Players.PlayerByName("Richard");
 
             Assert.AreEqual("Richard", player.Name);
@@ -23,9 +27,6 @@ namespace EloWeb.Tests.UnitTests
         [Test]
         public void CanGetPlayerTotalGamesWon()
         {
-            InitialiseTestPlayers();
-            InitialiseTestGames();
-            
             var player = Players.PlayerByName("Frank");
 
             Assert.AreEqual(2, player.GamesWon);
@@ -34,9 +35,6 @@ namespace EloWeb.Tests.UnitTests
         [Test]
         public void CanGetPlayerTotalGamesLost()
         {
-            InitialiseTestPlayers();
-            InitialiseTestGames();
-
             var player = Players.PlayerByName("Frank");
 
             Assert.AreEqual(1, player.GamesLost);
