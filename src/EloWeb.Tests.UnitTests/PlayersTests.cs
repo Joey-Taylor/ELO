@@ -29,7 +29,7 @@ namespace EloWeb.Tests.UnitTests
         {
             var player = Players.PlayerByName("Frank");
 
-            Assert.AreEqual(2, player.GamesWon);
+            Assert.AreEqual(2, player.GamesWon.Count());
         }
 
         [Test]
@@ -37,7 +37,27 @@ namespace EloWeb.Tests.UnitTests
         {
             var player = Players.PlayerByName("Frank");
 
-            Assert.AreEqual(1, player.GamesLost);
+            Assert.AreEqual(1, player.GamesLost.Count());
+        }
+
+        [Test]
+        public void CanGetWinsByOpponents()
+        {
+            var player = Players.PlayerByName("Frank");
+
+            var winsAgainstPeter = player.WinsByOpponent.First(p => p.Key == "Peter");
+
+            Assert.AreEqual(2, winsAgainstPeter.Count());
+        }
+
+        [Test]
+        public void CanGetLossesByOpponent()
+        {
+            var player = Players.PlayerByName("Frank");
+
+            var lossesAgainstPeter = player.LossesByOpponent.First(p => p.Key == "Peter");
+
+            Assert.AreEqual(1, lossesAgainstPeter.Count());
         }
 
         private void InitialiseTestPlayers()

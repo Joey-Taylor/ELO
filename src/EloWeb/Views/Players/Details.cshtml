@@ -81,13 +81,13 @@
 <hr/>
 
 <div>
-    <h3>Games Won (@Model.GamesWon)</h3>
+    <h3>Games Won (@Model.GamesWon.Count())</h3>
     <table class="table">
-        @foreach (var opponent in Model.MostWinsAgainst)
+        @foreach (var group in Model.WinsByOpponent.OrderByDescending(group => group.Count()))
         {
             <tr>
                 <td>
-                    @Html.ActionLink(opponent.Key, "Details", "Players", new { name = opponent.Key }, null) (@opponent.Count())
+                    @Html.ActionLink(group.Key, "Details", "Players", new { name = group.Key }, null) (@group.Count())
                 </td>
             </tr>
         }
@@ -95,13 +95,13 @@
 </div>
 
 <div>
-    <h3>Games Lost (@Model.GamesLost)</h3>
+    <h3>Games Lost (@Model.GamesLost.Count())</h3>
     <table class="table">
-        @foreach (var opponent in Model.MostLossesTo)
+        @foreach (var group in Model.LossesByOpponent.OrderByDescending(group => group.Count()))
         {
             <tr>
                 <td>
-                    @Html.ActionLink(opponent.Key, "Details", "Players", new { name = opponent.Key }, null) (@opponent.Count())
+                    @Html.ActionLink(group.Key, "Details", "Players", new { name = group.Key }, null) (@group.Count())
                 </td>
             </tr>
         }
