@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using EloWeb.Utils;
 
 namespace EloWeb.Models
 {
@@ -20,188 +22,95 @@ namespace EloWeb.Models
 
         public int Rating
         {
-            get
-            {
-                if(!_ratings.Any()) 
-                    return 0;
-
-                return _ratings.First.Value;
-            }
+            get { return _ratings.FirstOrDefault(); }
         }
 
         public int MaxRating
         {
-            get
-            {
-                if (!_ratings.Any())
-                    return 0;
-                
-                return _ratings.Max();
-            }
+            get { return _ratings.Count > 0 ? 0 : _ratings.Max(); }
         }
 
         public int MinRating
         {
-            get
-            {
-                if (!_ratings.Any())
-                    return 0;
-
-                return _ratings.Min();
-            }
+            get { return _ratings.Count > 0 ? 0 : _ratings.Min(); }
         }
 
-        public string Form
+        public string RecentForm
         {
-            get
-            {
-                return String.Concat(WinsAndLosses(Games.GamesByPlayer(Name))
-                    .Reverse()
-                    .Take(5)
-                    .Reverse());
-            }
+            get { return WinsAndLossesString.Last(5); }
         }
 
         public int LongestWinningStreak
         {
-            get
-            {
-                var results = WinsAndLosses(Games.GamesByPlayer(Name));
-                return FindBestWinningStreak(results);
-            }
+            get { return Results.LengthOfLongestSequence(r => r == Result.Win); }
         }
 
         public int CurrentWinningStreak
         {
-            get
-            {
-                return String.Concat(WinsAndLosses(Games.GamesByPlayer(Name))
-                    .Reverse()
-                    .TakeWhile(r => r == 'W'))
-                    .Count();
-            }
+            get { return Results.Reverse().TakeWhile(r => r == Result.Win).Count(); }
         }
 
         public int LongestLosingStreak
         {
-            get
-            {
-                var results = WinsAndLosses(Games.GamesByPlayer(Name));
-                return FindWorstLosingStreak(results);
-            }
+            get { return Results.LengthOfLongestSequence(r => r == Result.Loss); }
         }
 
         public int CurrentLosingStreak
         {
-            get
-            {
-                return String.Concat(WinsAndLosses(Games.GamesByPlayer(Name))
-                    .Reverse()
-                    .TakeWhile(r => r == 'L'))
-                    .Count();
-            }
+            get { return Results.Reverse().TakeWhile(r => r == Result.Loss).Count(); }
         }
 
-        private object WorL(Game game)
-        {
-            return game.Winner == Name ? "W" : "L";
-        }
 
         public IEnumerable<IGrouping<String, Game>> WinsByOpponent
         {
-            get
-            {
-                return GamesWon.GroupBy(game => game.Loser);
-            }
+            get { return GamesWon.GroupBy(game => game.Loser); }
         }
 
         public IEnumerable<IGrouping<String, Game>> LossesByOpponent
         {
-            get
-            {
-                return GamesLost.GroupBy(game => game.Winner);
-            }
+            get { return GamesLost.GroupBy(game => game.Winner); }
         }
 
         public IEnumerable<Game> GamesWon
         {
-            get
-            {
-                return Games.WinsByPlayer(Name);
-            }
+            get { return Games.WinsByPlayer(Name); }
         }
 
         public  IEnumerable<Game> GamesLost
         {
-            get
-            {
-                return Games.LossesByPlayer(Name);
-            }
+            get { return Games.LossesByPlayer(Name); }
         }
 
-        private string WinsAndLosses(IEnumerable<Game> games)
+        private IEnumerable<Result> Results
         {
-            var results = games
-                .Where(g => g.Winner == Name || g.Loser == Name)
-                .Select(WorL);
-            return string.Join("", results);            
-        }
+            get { return Games.ByPlayer(this).Select(g => g.Winner == Name ? Result.Win : Result.Loss); }
+        } 
 
-        private int FindBestWinningStreak(string results)
+        private string WinsAndLossesString
         {
-            var start = results.IndexOf('W');
-            if (start == -1) return 0;
-
-            var end = results.IndexOf('L', start);
-            if (end == -1) return results.Length - start;
-
-            var bestSoFar = end - start;
-            var bestOfRest = FindBestWinningStreak(results.Substring(end));
-
-            return bestSoFar > bestOfRest ? bestSoFar : bestOfRest;
-        }
-
-        private int FindWorstLosingStreak(string results)
-        {
-            var start = results.IndexOf('L');
-            if (start == -1) return 0;
-
-            var end = results.IndexOf('W', start);
-            if (end == -1) return results.Length - start;
-
-            var worstSoFar = end - start;
-            var worstOfRest = FindWorstLosingStreak(results.Substring(end));
-
-            return worstSoFar > worstOfRest ? worstSoFar : worstOfRest;
+            get { return Results.Select(r => r == Result.Win ? "W" : "L").Join(""); }
         }
 
         public int WinRate
         {
             get
             {
-                var games = Games.GamesByPlayer(Name).ToList();
+                var results = Results.ToList();
 
-                var total = games.Count;
-                var wins = games.Count(g => g.Winner == Name);
+                var total = results.Count;
+                if (total == 0) return 0;
 
-                if (wins == 0 || total == 0) return 0;
-
-                return (int)((decimal)wins/total*100);   
+                var wins = results.Count(r => r == Result.Win);
+                return (int)Math.Round((decimal)wins/total*100);   
             }
         }
 
-
-        public int RatingChange
+        [DisplayFormat(NullDisplayText = "-")]
+        public int? RatingChange
         {
             get
             {
-                if (!_ratings.Any())
-                    return 0;
-
-                if (_ratings.First.Next == null)
-                    return _ratings.First.Value;
-
-                return _ratings.First.Value - _ratings.First.Next.Value;
+                return _ratings.Count < 2 ? (int?)null : _ratings.First.Value - _ratings.First.Next.Value;
             }
         }
 

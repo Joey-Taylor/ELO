@@ -11,7 +11,7 @@ namespace EloWeb.Models
         public static void Initialise(IEnumerable<string> names)
         {
             _players = names.Select(Player.CreateInitial).ToDictionary(p => p.Name);
-           Games.All().ForEach(UpdateRatings);            
+           Games.All.ForEach(UpdateRatings);
         }
 
         public static void Add(Player player)
