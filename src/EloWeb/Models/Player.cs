@@ -107,27 +107,36 @@ namespace EloWeb.Models
             return game.Winner == Name ? "W" : "L";
         }
 
-        public IEnumerable<IGrouping<String, Game>> MostWinsAgainst
+        public IEnumerable<IGrouping<String, Game>> WinsByOpponent
         {
             get
             {
-                return Games.GamesByPlayer(Name)
-                   .Where(game => game.Winner == Name)
-                   .GroupBy(game => game.Loser)
-                   .OrderByDescending(group => group.Count());   
+                return GamesWon.GroupBy(game => game.Loser);
             }
-            
         }
 
-        public IEnumerable<IGrouping<String, Game>> MostLossesTo
+        public IEnumerable<IGrouping<String, Game>> LossesByOpponent
         {
             get
             {
-                return Games.GamesByPlayer(Name)
-                   .Where(game => game.Loser == Name)
-                   .GroupBy(game => game.Winner)
-                   .OrderByDescending(group => group.Count());                   
-            }            
+                return GamesLost.GroupBy(game => game.Winner);
+            }
+        }
+
+        public IEnumerable<Game> GamesWon
+        {
+            get
+            {
+                return Games.WinsByPlayer(Name);
+            }
+        }
+
+        public  IEnumerable<Game> GamesLost
+        {
+            get
+            {
+                return Games.LossesByPlayer(Name);
+            }
         }
 
         private string WinsAndLosses(IEnumerable<Game> games)

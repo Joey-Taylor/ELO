@@ -44,5 +44,15 @@ namespace EloWeb.Models
         {
             return _games.Where(game => game.Winner == name || game.Loser == name);
         }
+
+        public static IEnumerable<Game> WinsByPlayer(string name)
+        {
+            return _games.Where(game => game.Winner == name);
+        }
+
+        public static IEnumerable<Game> LossesByPlayer(string name)
+        {
+            return _games.Where(game => game.Loser == name);
+        }
     }
 }

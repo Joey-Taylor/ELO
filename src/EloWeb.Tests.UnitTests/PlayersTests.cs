@@ -8,17 +8,66 @@ namespace EloWeb.Tests.UnitTests
 {
     class PlayersTests
     {
-        [Test]
-        public void Can_parse_the_text_description_of_a_Player()
+        [TestFixtureSetUp]
+        public void TestSetup()
         {
-            Games.Initialise(new List<String>());
-            Players.Initialise(new List<String> { "Richard" });
+            InitialiseTestPlayers();
+            InitialiseTestGames();
+        }
 
+        [Test]
+        public void CanParsePlayerDescriptionText()
+        {   
             var player = Players.PlayerByName("Richard");
 
             Assert.AreEqual("Richard", player.Name);
             Assert.AreEqual(1000, player.Rating);
         }
 
+        [Test]
+        public void CanGetPlayerTotalGamesWon()
+        {
+            var player = Players.PlayerByName("Frank");
+
+            Assert.AreEqual(2, player.GamesWon.Count());
+        }
+
+        [Test]
+        public void CanGetPlayerTotalGamesLost()
+        {
+            var player = Players.PlayerByName("Frank");
+
+            Assert.AreEqual(1, player.GamesLost.Count());
+        }
+
+        [Test]
+        public void CanGetWinsByOpponents()
+        {
+            var player = Players.PlayerByName("Frank");
+
+            var winsAgainstPeter = player.WinsByOpponent.First(p => p.Key == "Peter");
+
+            Assert.AreEqual(2, winsAgainstPeter.Count());
+        }
+
+        [Test]
+        public void CanGetLossesByOpponent()
+        {
+            var player = Players.PlayerByName("Frank");
+
+            var lossesAgainstPeter = player.LossesByOpponent.First(p => p.Key == "Peter");
+
+            Assert.AreEqual(1, lossesAgainstPeter.Count());
+        }
+
+        private void InitialiseTestPlayers()
+        {
+            Players.Initialise(new List<String>() { "Peter", "Frank", "Richard" });
+        }
+
+        private void InitialiseTestGames()
+        {
+            Games.Initialise(new List<String>() { "Peter beat Frank", "Frank beat Peter", "Frank beat Peter" });
+        }
     }
 }
