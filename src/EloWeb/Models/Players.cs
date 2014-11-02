@@ -1,56 +1,41 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebGrease.Css.Extensions;
 
 namespace EloWeb.Models
 {
     public class Players
     {
-        private static Dictionary<string, Player> _players = new Dictionary<string, Player>();
+        private readonly PoolLadderContext _db;
 
-        public static void Initialise(IEnumerable<string> names)
+        public Players(PoolLadderContext context)
         {
-            _players = names.Select(Player.CreateInitial).ToDictionary(p => p.Name);
-           Games.All.ForEach(UpdateRatings);
+            _db = context;
         }
 
-        public static void Add(Player player)
+        public void Add(Player player)
         {
-            _players.Add(player.Name, player);
+            _db.Players.Add(player);
+            _db.SaveChanges();
         }
 
-        public static void UpdateRatings(Game game)
+        public IEnumerable<Player> All()
         {
-            var winner = PlayerByName(game.Winner);
-            var loser = PlayerByName(game.Loser);
-
-            var pointsExchanged = EloCalc.PointsExchanged(winner.Rating, loser.Rating);
-
-            winner.IncreaseRating(pointsExchanged, game.Time);
-            loser.DecreaseRating(pointsExchanged, game.Time);
+            return _db.Players;
         }
 
-        public static IEnumerable<Player> All()
+        public IEnumerable<Player> Active()
         {
-            return _players.Values;
+            return _db.Players.Where(p => p.IsActive == true).ToList();
         }
 
-        public static IEnumerable<Player> Active()
+        public IEnumerable<string> Names()
         {
-            return _players.Values.Where(p => !RetiredPlayers.IsRetired(p.Name));
+            return _db.Players.Select(p => p.Name).ToList();
         }
 
-        public static IEnumerable<string> Names()
+        public Player PlayerByName(string name)
         {
-            return _players.Keys;
-        }
-
-        public static Player PlayerByName(string name)
-        {
-            if (!_players.ContainsKey(name))
-                return new Player();
-
-            return _players[name];
+            return _db.Players.Single(p => p.Name == name);
         }
     }
 }

@@ -6,22 +6,26 @@ namespace EloWeb.Models
     {
         private const string BEAT = "beat";
         private const string AT = "at";
- 
-        public string Winner { get; set; }
-        public string Loser { get; set; }
 
-        /// <summary>
+
+        public long GameId { get; set; }
+        public virtual Player Winner { get; set; }
+        public long WinnerRating { get; set; }
+        public virtual Player Loser { get; set; }
+        public long LoserRating { get; set; }
+		/// <summary>
         /// The time at which this game happened
         /// Note: This is in UTC
         /// </summary>
-        public DateTime Time { get; set; }
+        public DateTime Date { get; set; }
+
 
         /// <summary>
         /// Default constructor which sets the Time as DateTime.UtcNow
         /// </summary>
         public Game()
         {
-            Time = DateTime.UtcNow;
+            Date = DateTime.UtcNow;
         }
 
         public static Game Deserialize(string game)

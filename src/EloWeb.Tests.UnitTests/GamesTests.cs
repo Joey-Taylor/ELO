@@ -6,43 +6,41 @@ using System.Collections.Generic;
 namespace EloWeb.Tests.UnitTests
 {
     public class GamesTests
-    {
+    {        
         [Test]
         public void CanPersistAndRetrieveAGame()
         {
-            var game = new Game {Winner = "A", Loser = "B"};
 
-            var gameString = game.Serialize();
-            var recreatedGame = Game.Deserialize(gameString);
-
-            Assert.AreEqual(game, recreatedGame);
         }
 
         [Test]
         public void CanAddAGameToTheList()
         {
-            var games = new List<Game>
-            {
-                new Game {Winner = "A", Loser = "B"},
-                new Game {Winner = "A", Loser = "C"},
-                new Game {Winner = "B", Loser = "C"},
-            };
-            
-            Games.Initialise(new List<String>());
-            foreach (var game in games)
-            {
-                Games.Add(game);
-            }
+            var game = new Game { Winner = new Player("A"), Loser = new Player("B") };            
+            Assert.AreEqual("A beat B", game.ToString());
+        }
 
-            Assert.AreEqual(games, Games.All);
+        [Test]
+        public void CanAddAGameToTheList()
+        {
+            var gameReposity = new GamesRepository(new PoolLadderContext());
+            var playerA = new Player("A");
+            var playerB = new Player("B");
+            var game = new Game {Winner = playerA, Loser = playerB};
+            gameReposity.Add(game);            
+
+            var expected = new List<Game>
+            {
+                game
+            };
+
+            Assert.AreEqual(expected, GamesRepository.All);
         }
 
         [Test]
         public void CanRetrieveNMostRecentGames()
         {
-            var game1 = new Game {Winner = "A", Loser = "B"};
-            var game2 = new Game {Winner = "A", Loser = "C"};
-            var game3 = new Game {Winner = "B", Loser = "C"};
+            GamesRepository.Initialise(new List<String> { "A beat B", "A beat C", "B beat C" });
 
             Games.Initialise(new String[0]);
             Games.Add(game1);
@@ -55,15 +53,14 @@ namespace EloWeb.Tests.UnitTests
                 game3
             };
 
-            Assert.AreEqual(expected, Games.MostRecent(2, Games.GamesSortOrder.MostRecentLast));
+            Assert.AreEqual(expected, GamesRepository.MostRecent(2, GamesRepository.GamesSortOrder.MostRecentLast));
         }
 
         [Test]
         public void CanRetrieveGamesPlayedByAParticularPlayer()
         {
-            var game1 = new Game { Winner = "A", Loser = "B" };
-            var game2 = new Game { Winner = "A", Loser = "C" };
-            var game3 = new Game { Winner = "B", Loser = "C" };
+            GamesRepository.Initialise(new List<String> { "A beat B", "A beat C", "B beat C" });
+            var player = new Player {Name = "B"};
 
             Games.Initialise(new String[0]);
             Games.Add(game1);
@@ -76,9 +73,7 @@ namespace EloWeb.Tests.UnitTests
                 game3
             };
 
-            var player = new Player {Name = "C"};
-
-            Assert.AreEqual(expected, Games.ByPlayer(player));
+            Assert.AreEqual(expected, GamesRepository.ByPlayer(player));
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using EloWeb.Models;
-using EloWeb.Persist;
 using EloWeb.Utils;
 using EloWeb.ViewModels;
 
@@ -9,29 +8,36 @@ namespace EloWeb.Controllers
 {
     public class PlayersController : Controller
     {
+        private readonly Players _players;
+
+        public PlayersController(Players players)
+        {
+            _players = players;
+        }
+
         // GET: Players
         public ActionResult Index()
         {
-            var leaderboard = Players.All().OrderByDescending(p => p.Rating);
+            var leaderboard = _players.All().OrderByDescending(p => p.Rating);
             if (!leaderboard.Any())
                 return Redirect("~/Players/NewLeague");
 
-            var players = Players.All();
-            ViewData.Model = players.OrderBy(p => p.Name);
+            ViewData.Model = _players.All().OrderBy(p => p.Name);
             return View();
         }
 
         // GET: Players/Details?name=......
         public ActionResult Details(string name)
         {
-            ViewData.Model = Players.PlayerByName(name);
+            ViewData.Model = _players.PlayerByName(name);
             return View();
         }
 
         // GET: Players/Records
         public ActionResult Records()
         {
-            var activePlayers = Players.Active();
+            var allPlayers = _players.All();
+            var activePlayers = _players.Active();
 
             if (!activePlayers.Any())
                 return Redirect("~/Players/NewLeague");
@@ -67,8 +73,7 @@ namespace EloWeb.Controllers
         [HttpPost]
         public ActionResult Create(CreatePlayerViewModel player)
         {
-            Players.Add(Player.CreateInitial(player.Name)); 
-            PlayersData.PersistPlayer(player.Name);         
+            _players.Add(new Player(player.Name));       
             return Redirect("~/Players");
         }
     }

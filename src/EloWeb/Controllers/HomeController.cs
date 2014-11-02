@@ -6,6 +6,11 @@ namespace EloWeb.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly Players _players;
+        public LeaderboardController(Players players)
+        {
+            _players = players;
+        }
         public ActionResult Index()
         {
             var leaderboard = Players.Active().Where(p => p.GamesPlayed > 0).OrderByDescending(p => p.Rating);

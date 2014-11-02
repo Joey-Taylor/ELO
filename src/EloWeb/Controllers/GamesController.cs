@@ -1,20 +1,27 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using EloWeb.Models;
-using EloWeb.Persist;
 
 namespace EloWeb.Controllers
 {
     public class GamesController : Controller
     {
+        private readonly GamesRepository _gamesRepository;
+        private readonly Players _players;
+        public GamesController(GamesRepository gamesRepository, Players players)
+        {
+            _gamesRepository = gamesRepository;
+            _players = players;
+        }
+
         // GET: Games
         public ActionResult Index()
         {
-            var leaderboard = Players.All().OrderByDescending(p => p.Rating);
+            var leaderboard = _players.All().OrderByDescending(p => p.Rating);
             if (!leaderboard.Any())
                 return Redirect("~/Players/NewLeague");
 
-            ViewData.Model = Games.MostRecent(20, Games.GamesSortOrder.MostRecentFirst);
+            ViewData.Model = _gamesRepository.MostRecent(20);
             return View();
         }
 
@@ -23,9 +30,9 @@ namespace EloWeb.Controllers
         public ActionResult Create()
         {
             var createGameView = new ViewModels.CreateGame
-            {
-                Players = Players.Active().Select(p=>p.Name).OrderBy(n=>n), 
-                RecentGames = Games.MostRecent(5, Games.GamesSortOrder.MostRecentFirst)
+            {                
+                Players = _players.Active().Select(p => p.Name).OrderBy(n => n), 
+                RecentGames = _gamesRepository.MostRecent(10)
             };
             ViewData.Model = createGameView;
             return View();
@@ -36,10 +43,8 @@ namespace EloWeb.Controllers
         public ActionResult Create(Game game)
         {
             if (game.Winner != game.Loser)
-            {
-                GamesData.PersistGame(game);
-                Games.Add(game);
-                Players.UpdateRatings(game);
+            { 
+                _gamesRepository.Add(game);                
             }
 
             return Redirect("~/");

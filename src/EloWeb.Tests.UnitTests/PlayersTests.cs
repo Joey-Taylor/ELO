@@ -8,12 +8,17 @@ namespace EloWeb.Tests.UnitTests
 {
     class PlayersTests
     {
+        private Players players;
+
         [TestFixtureSetUp]
         public void TestSetup()
         {
+
             // The order of these matters
             InitialiseTestGames();
             InitialiseTestPlayers();
+            players = new Players();
+            
         }
 
         [Test]
@@ -27,7 +32,7 @@ namespace EloWeb.Tests.UnitTests
         [Test]
         public void CanGetPlayerTotalGamesWon()
         {
-            var player = Players.PlayerByName("Frank");
+            var player = players.PlayerByName("Frank");
 
             Assert.AreEqual(2, player.GamesWon.Count());
         }
@@ -35,7 +40,7 @@ namespace EloWeb.Tests.UnitTests
         [Test]
         public void CanGetPlayerTotalGamesLost()
         {
-            var player = Players.PlayerByName("Frank");
+            var player = players.PlayerByName("Frank");
 
             Assert.AreEqual(1, player.GamesLost.Count());
         }
@@ -43,7 +48,7 @@ namespace EloWeb.Tests.UnitTests
         [Test]
         public void CanGetWinsByOpponents()
         {
-            var player = Players.PlayerByName("Frank");
+            var player = players.PlayerByName("Frank");
 
             var winsAgainstPeter = player.WinsByOpponent.First(p => p.Key == "Peter");
 
@@ -53,7 +58,7 @@ namespace EloWeb.Tests.UnitTests
         [Test]
         public void CanGetLossesByOpponent()
         {
-            var player = Players.PlayerByName("Frank");
+            var player = players.PlayerByName("Frank");
 
             var lossesAgainstPeter = player.LossesByOpponent.First(p => p.Key == "Peter");
 
@@ -63,10 +68,10 @@ namespace EloWeb.Tests.UnitTests
         [Test]
         public void CanGetWinLossString()
         {
-            var frank = Players.PlayerByName("Frank");
-            var peter = Players.PlayerByName("Peter");
-            var bob = Players.PlayerByName("Bob");
-            var richard = Players.PlayerByName("Richard");
+            var frank = players.PlayerByName("Frank");
+            var peter = players.PlayerByName("Peter");
+            var bob = players.PlayerByName("Bob");
+            var richard = players.PlayerByName("Richard");
 
             Assert.AreEqual("LWW", frank.RecentForm);
             Assert.AreEqual("WLL", peter.RecentForm);
@@ -77,7 +82,7 @@ namespace EloWeb.Tests.UnitTests
         [Test]
         public void CanGetWinningStreak()
         {
-            var bob = Players.PlayerByName("Bob");
+            var bob = players.PlayerByName("Bob");
 
             Assert.AreEqual(4, bob.LongestWinningStreak);
             Assert.AreEqual(1, bob.CurrentWinningStreak);
@@ -86,7 +91,7 @@ namespace EloWeb.Tests.UnitTests
         [Test]
         public void CanGetLosingStreak()
         {
-            var richard = Players.PlayerByName("Richard");
+            var richard = players.PlayerByName("Richard");
 
             Assert.AreEqual(4, richard.LongestLosingStreak);
             Assert.AreEqual(1, richard.CurrentLosingStreak);
@@ -95,14 +100,9 @@ namespace EloWeb.Tests.UnitTests
         [Test]
         public void CanGetWinRate()
         {
-            var richard = Players.PlayerByName("Richard");
+            var richard = players.PlayerByName("Richard");
 
             Assert.AreEqual(25, richard.WinRate);
-        }
-
-        private void InitialiseTestPlayers()
-        {
-            Players.Initialise(new List<String> { "Peter", "Frank", "Richard", "Bob" });
         }
 
         private void InitialiseTestGames()

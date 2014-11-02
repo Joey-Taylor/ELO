@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using EloWeb.Utils;
 
 namespace EloWeb.Models
@@ -11,17 +12,29 @@ namespace EloWeb.Models
         private readonly LinkedList<Rating> _ratings = new LinkedList<Rating>();
         public const int InitialRating = 1000;
 
-        public static Player CreateInitial(string name)
+        public long PlayerId { get; set; }
+        public string Name { get; set; }
+        public int Rating { get; set; }
+        public bool IsActive { get; set; }
+
+        public Player() { }
+        public Player(string name)
         {
             var player = new Player { Name = name };
             player.AddRating(InitialRating, DateTime.UtcNow);
             return player;
         }
 
+        public void GivePoints(int pointsExchanged, Player player)
+        {
+            Rating -= pointsExchanged;
+            player.Rating += pointsExchanged;
+        }
         public string Name { get; set; }
 
         public Rating Rating
         {
+       
             get { return _ratings.First(); }
         }
 
@@ -29,32 +42,26 @@ namespace EloWeb.Models
         {
             get { return _ratings.Max(); }
         }
-
         public Rating MinRating
         {
             get { return _ratings.Min(); }
         }
-
         public string RecentForm
         {
-            get { return WinsAndLossesString.Last(5); }
+            get { throw new NotImplementedException(); }
         }
-
         public int LongestWinningStreak
         {
             get { return Results.LengthOfLongestSequence(r => r == Result.Win); }
         }
-
         public int CurrentWinningStreak
         {
             get { return Results.Reverse().TakeWhile(r => r == Result.Win).Count(); }
         }
-
         public int LongestLosingStreak
         {
             get { return Results.LengthOfLongestSequence(r => r == Result.Loss); }
         }
-
         public int CurrentLosingStreak
         {
             get { return Results.Reverse().TakeWhile(r => r == Result.Loss).Count(); }
@@ -62,24 +69,25 @@ namespace EloWeb.Models
 
         public IEnumerable<IGrouping<String, Game>> WinsByOpponent
         {
-            get { return GamesWon.GroupBy(game => game.Loser); }
+            get { return null; }
+            // GamesWon.GroupBy(game => game.Loser); }
         }
 
         public IEnumerable<IGrouping<String, Game>> LossesByOpponent
         {
-            get { return GamesLost.GroupBy(game => game.Winner); }
+            get { return null; }
+//                GamesLost.GroupBy(game => game.Winner); }
         }
-
         public IEnumerable<Game> GamesWon
         {
-            get { return Games.WinsByPlayer(Name); }
+            get { return null; }
+//            GamesRepository.WinsByPlayer(Name); }
         }
-
         public  IEnumerable<Game> GamesLost
         {
-            get { return Games.LossesByPlayer(Name); }
+            get { return null; }
+//                return GamesRepository.LossesByPlayer(Name);           
         }
-
         public int GamesPlayed
         {
             get { return Games.ByPlayer(this).Count(); }
@@ -87,15 +95,11 @@ namespace EloWeb.Models
 
         private IEnumerable<Result> Results
         {
-            get { return Games.ByPlayer(this).Select(g => g.Winner == Name ? Result.Win : Result.Loss); }
+            get { return null; }
+//            return Games.ByPlayer(this).Select(g => g.Winner == Name ? Result.Win : Result.Loss);            
         } 
 
-        private string WinsAndLossesString
-        {
-            get { return Results.Select(r => r == Result.Win ? "W" : "L").Join(""); }
-        }
-
-        public int WinRate
+        public int WinRate 
         {
             get
             {
