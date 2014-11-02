@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using EloWeb.Utils;
+using Ninject.Infrastructure.Language;
 
 namespace EloWeb.Models
 {
@@ -20,8 +21,10 @@ namespace EloWeb.Models
         public Player() { }
         public Player(string name)
         {
-            var player = new Player { Name = name };
-            player.AddRating(InitialRating, DateTime.UtcNow);
+            this.Name = name;
+            this.Rating = InitialRating;
+            this.IsActive = true;
+            this.AddRating(InitialRating, DateTime.UtcNow);
             return player;
         }
 
@@ -48,45 +51,50 @@ namespace EloWeb.Models
         }
         public string RecentForm
         {
-            get { throw new NotImplementedException(); }
+            // TODO
+            get { return "WWWWW"; }
         }
         public int LongestWinningStreak
         {
-            get { return Results.LengthOfLongestSequence(r => r == Result.Win); }
+            // TODO
+            get { return 5; }
         }
         public int CurrentWinningStreak
         {
-            get { return Results.Reverse().TakeWhile(r => r == Result.Win).Count(); }
+            // TODO
+            get { return 6; }
         }
         public int LongestLosingStreak
         {
-            get { return Results.LengthOfLongestSequence(r => r == Result.Loss); }
+            // TODO
+            get { return 7; }
         }
         public int CurrentLosingStreak
         {
-            get { return Results.Reverse().TakeWhile(r => r == Result.Loss).Count(); }
+            // TODO
+            get { return 4; }
         }
 
         public IEnumerable<IGrouping<String, Game>> WinsByOpponent
         {
-            get { return null; }
-            // GamesWon.GroupBy(game => game.Loser); }
+            // TODO GamesWon.GroupBy(game => game.Loser); }
+            get { return null; }            
         }
 
         public IEnumerable<IGrouping<String, Game>> LossesByOpponent
         {
+            // TODO GamesLost.GroupBy(game => game.Winner); }
             get { return null; }
-//                GamesLost.GroupBy(game => game.Winner); }
         }
         public IEnumerable<Game> GamesWon
         {
-            get { return null; }
-//            GamesRepository.WinsByPlayer(Name); }
+            // TODO GamesRepository.WinsByPlayer(Name); }
+            get { return new List<Game>().ToEnumerable(); }
         }
         public  IEnumerable<Game> GamesLost
         {
-            get { return null; }
-//                return GamesRepository.LossesByPlayer(Name);           
+            // TODO return GamesRepository.LossesByPlayer(Name);           
+            get { return new List<Game>().ToEnumerable(); }
         }
         public int GamesPlayed
         {
@@ -95,22 +103,14 @@ namespace EloWeb.Models
 
         private IEnumerable<Result> Results
         {
-            get { return null; }
-//            return Games.ByPlayer(this).Select(g => g.Winner == Name ? Result.Win : Result.Loss);            
+            // TODO return Games.ByPlayer(this).Select(g => g.Winner == Name ? Result.Win : Result.Loss);       
+            get { return new List<Result>().ToEnumerable(); }     
         } 
 
         public int WinRate 
         {
-            get
-            {
-                var results = Results.ToList();
-
-                var total = results.Count;
-                if (total == 0) return 0;
-
-                var wins = results.Count(r => r == Result.Win);
-                return (int)Math.Round((decimal)wins/total*100);   
-            }
+            // TODO
+            get { return 5; }
         }
 
         [DisplayFormat(DataFormatString = "{0:+#;-#;0}")]

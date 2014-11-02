@@ -20,12 +20,12 @@ namespace EloWeb.Models
 
         public IEnumerable<Player> All()
         {
-            return _db.Players;
+            return _db.Players.ToList();
         }
 
         public IEnumerable<Player> Active()
         {
-            return _db.Players.Where(p => p.IsActive == true).ToList();
+            return _db.Players.Where(p => p.IsActive).ToList();
         }
 
         public IEnumerable<string> Names()

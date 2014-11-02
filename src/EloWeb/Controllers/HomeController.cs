@@ -7,7 +7,7 @@ namespace EloWeb.Controllers
     public class HomeController : Controller
     {
         private readonly Players _players;
-        public LeaderboardController(Players players)
+        public HomeController(Players players)
         {
             _players = players;
         }
