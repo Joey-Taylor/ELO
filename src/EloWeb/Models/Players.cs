@@ -40,7 +40,10 @@ namespace EloWeb.Models
 
         public Player PlayerByName(string name)
         {
-            return _db.Players.Single(p => p.Name == name);
+            return _db.Players
+                .Include("Wins")
+                .Include("Losses")
+                .Single(p => p.Name == name);
         }
 
         public void UpdateRatings(Player winner, Player loser)

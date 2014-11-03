@@ -48,7 +48,7 @@ namespace EloWeb
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<Players>().To<Players>();
-            kernel.Bind<GamesRepository>().To<GamesRepository>();
+            kernel.Bind<Games>().To<Games>();
             kernel.Bind<PoolLadderContext>().To<PoolLadderContext>();
         }        
     }

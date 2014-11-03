@@ -81,7 +81,7 @@
 <hr/>
 
 <div>
-    <h3>Games Won (@Model.GamesWon.Count())</h3>
+    <h3>Games Won (@Model.Wins.Count())</h3>
     <table class="table">
         @foreach (var group in Model.WinsByOpponent.OrderByDescending(group => group.Count()))
         {
@@ -95,7 +95,7 @@
 </div>
 
 <div>
-    <h3>Games Lost (@Model.GamesLost.Count())</h3>
+    <h3>Games Lost (@Model.Losses.Count())</h3>
     <table class="table">
         @foreach (var group in Model.LossesByOpponent.OrderByDescending(group => group.Count()))
         {

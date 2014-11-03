@@ -13,9 +13,9 @@ namespace EloWeb.Models
         public virtual Player Winner { get; set; }
         public long ID { get; set; }
         public long WinnerId { get; set; }           
-        public long WinnerRating { get; set; }
+        public int WinnerRating { get; set; }
         public long LoserId { get; set; }        
-        public long LoserRating { get; set; }
+        public int LoserRating { get; set; }
 		/// <summary>
         /// The time at which this game happened
         /// Note: This is in UTC

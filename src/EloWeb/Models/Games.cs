@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace EloWeb.Models
 {
-    public class GamesRepository
+    public class Games
     {
         private readonly PoolLadderContext _db;
-        public GamesRepository(PoolLadderContext dbContext)
+        public Games(PoolLadderContext dbContext)
         {
             _db = dbContext;
         }

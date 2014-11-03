@@ -23,7 +23,7 @@ namespace EloWeb.Tests.UnitTests
         [Test]
         public void CanAddAGameToTheList()
         {
-            var gameReposity = new GamesRepository(new PoolLadderContext());
+            var gameReposity = new Games(new PoolLadderContext());
             var playerA = new Player("A");
             var playerB = new Player("B");
             var game = new Game {Winner = playerA, Loser = playerB};
@@ -34,13 +34,13 @@ namespace EloWeb.Tests.UnitTests
                 game
             };
 
-            Assert.AreEqual(expected, GamesRepository.All);
+            Assert.AreEqual(expected, Games.All);
         }
 
         [Test]
         public void CanRetrieveNMostRecentGames()
         {
-            GamesRepository.Initialise(new List<String> { "A beat B", "A beat C", "B beat C" });
+            Games.Initialise(new List<String> { "A beat B", "A beat C", "B beat C" });
 
             Games.Initialise(new String[0]);
             Games.Add(game1);
@@ -53,13 +53,13 @@ namespace EloWeb.Tests.UnitTests
                 game3
             };
 
-            Assert.AreEqual(expected, GamesRepository.MostRecent(2, GamesRepository.GamesSortOrder.MostRecentLast));
+            Assert.AreEqual(expected, Games.MostRecent(2, Games.GamesSortOrder.MostRecentLast));
         }
 
         [Test]
         public void CanRetrieveGamesPlayedByAParticularPlayer()
         {
-            GamesRepository.Initialise(new List<String> { "A beat B", "A beat C", "B beat C" });
+            Games.Initialise(new List<String> { "A beat B", "A beat C", "B beat C" });
             var player = new Player {Name = "B"};
 
             Games.Initialise(new String[0]);
@@ -73,7 +73,7 @@ namespace EloWeb.Tests.UnitTests
                 game3
             };
 
-            Assert.AreEqual(expected, GamesRepository.ByPlayer(player));
+            Assert.AreEqual(expected, Games.ByPlayer(player));
         }
     }
 }

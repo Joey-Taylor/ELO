@@ -41,20 +41,39 @@ namespace EloWeb.Models
         {
        
             get { return _ratings.First(); }
+            get
+            {
+                if (Wins != null && Wins.Any())
+                {
+                    return Wins.Max(g => g.WinnerRating);
+                }
+                return 0;
+            }
         }
 
         public Rating MaxRating
+
+        public int MinRating
         {
             get { return _ratings.Max(); }
+            get
+            {
+                if (Losses != null && Losses.Any())
+                {
+                    return Losses.Min(g => g.LoserRating);
+                }
+                return InitialRating;
+            }
         }
         public Rating MinRating
         {
             get { return _ratings.Min(); }
         }
+
         public string RecentForm
         {
             // TODO
-            get { return "WWWWW"; }
+            get { return Wins.Union(Losses).OrderByDescending(g => g.Date).Take(5).ToList().ToString(); }
         }
         public int LongestWinningStreak
         {
@@ -79,14 +98,12 @@ namespace EloWeb.Models
 
         public IEnumerable<IGrouping<String, Game>> WinsByOpponent
         {
-            // TODO GamesWon.GroupBy(game => game.Loser); }
-            get { return null; }            
+            get { return Wins.GroupBy(game => game.Loser.Name); }            
         }
 
         public IEnumerable<IGrouping<String, Game>> LossesByOpponent
         {
-            // TODO GamesLost.GroupBy(game => game.Winner); }
-            get { return null; }
+            get { return Losses.GroupBy(game => game.Winner.Name); }
         }
         public IEnumerable<Game> GamesWon
         {
@@ -109,10 +126,14 @@ namespace EloWeb.Models
             get { return new List<Result>().ToEnumerable(); }     
         } 
 
-        public int WinRate 
+        public int WinRate
         {
+            get { return 50; }
             // TODO
-            get { return 5; }
+//            var total = Wins.Count + Losses.Count;
+//            if (total == 0) return 0;
+//            return (int) Math.Round((decimal) Wins.Count/total*100);
+            
         }
 
         [DisplayFormat(DataFormatString = "{0:+#;-#;0}")]

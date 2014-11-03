@@ -8,11 +8,11 @@ namespace EloWeb.Controllers
 {
     public class GamesController : Controller
     {
-        private readonly GamesRepository _gamesRepository;
+        private readonly Games _games;
         private readonly Players _players;
-        public GamesController(GamesRepository gamesRepository, Players players)
+        public GamesController(Games games, Players players)
         {
-            _gamesRepository = gamesRepository;
+            _games = games;
             _players = players;
         }
 
@@ -23,7 +23,7 @@ namespace EloWeb.Controllers
             if (!leaderboard.Any())
                 return Redirect("~/Players/NewLeague");
 
-            ViewData.Model = _gamesRepository.MostRecent(20);
+            ViewData.Model = _games.MostRecent(20);
             return View();
         }
 
@@ -34,7 +34,7 @@ namespace EloWeb.Controllers
             ViewData.Model =  new CreateGame
             {                
                 Players = GetPlayerSelectList(),
-                RecentGames = _gamesRepository.MostRecent(10)
+                RecentGames = _games.MostRecent(10)
             };
             return View();
         }
@@ -43,7 +43,7 @@ namespace EloWeb.Controllers
         {
             var players = _players.Active();
 
-            var selectList = players.Select(p => 
+            var selectList = players.OrderBy(p => p.Name).Select(p => 
                 new SelectListItem
                 {
                     Value = p.ID.ToString(),
@@ -62,7 +62,7 @@ namespace EloWeb.Controllers
             {                         
                 var winner = _players.Get(gameOutcome.WinnerId);
                 var loser = _players.Get(gameOutcome.LoserId);
-                _gamesRepository.Add(new Game(winner, loser));
+                _games.Add(new Game(winner, loser));
                 _players.UpdateRatings(winner, loser);
             }
 
