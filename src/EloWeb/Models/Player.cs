@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using EloWeb.Utils;
 using Ninject.Infrastructure.Language;
 
 namespace EloWeb.Models
@@ -13,10 +12,13 @@ namespace EloWeb.Models
         private readonly LinkedList<Rating> _ratings = new LinkedList<Rating>();
         public const int InitialRating = 1000;
 
-        public long PlayerId { get; set; }
+        public long ID { get; set; }
         public string Name { get; set; }
         public int Rating { get; set; }
         public bool IsActive { get; set; }
+
+        public virtual ICollection<Game> Wins { get; set; }
+        public virtual ICollection<Game> Losses { get; set; } 
 
         public Player() { }
         public Player(string name)

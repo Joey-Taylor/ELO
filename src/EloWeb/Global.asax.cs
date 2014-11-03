@@ -1,6 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System.Data.Entity;
+using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using EloWeb.Models;
 
 namespace EloWeb
 {
@@ -12,6 +14,7 @@ namespace EloWeb
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            Database.SetInitializer<PoolLadderContext>(new PoolLadderDbInitializer());
         }
     }
 }

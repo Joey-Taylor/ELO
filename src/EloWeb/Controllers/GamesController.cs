@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using EloWeb.Models;
+using EloWeb.ViewModels;
 
 namespace EloWeb.Controllers
 {
@@ -29,26 +31,49 @@ namespace EloWeb.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            var createGameView = new ViewModels.CreateGame
+            ViewData.Model =  new CreateGame
             {                
-                Players = _players.Active().Select(p => p.Name).OrderBy(n => n), 
+                Players = GetPlayerSelectList(),
                 RecentGames = _gamesRepository.MostRecent(10)
             };
-            ViewData.Model = createGameView;
             return View();
+        }
+
+        private IEnumerable<SelectListItem> GetPlayerSelectList()
+        {
+            var players = _players.Active();
+
+            var selectList = players.Select(p => 
+                new SelectListItem
+                {
+                    Value = p.ID.ToString(),
+                    Text = p.Name
+                }
+            );
+
+            return new SelectList(selectList, "Value", "Text");
         }
 
         // POST: Games/Create
         [HttpPost]
-        public ActionResult Create(Game game)
+        public ActionResult Create(GameOutcome gameOutcome)
         {
-            if (game.Winner != game.Loser)
-            { 
-                _gamesRepository.Add(game);                
+            if (gameOutcome.WinnerId != gameOutcome.LoserId)
+            {                         
+                var winner = _players.Get(gameOutcome.WinnerId);
+                var loser = _players.Get(gameOutcome.LoserId);
+                _gamesRepository.Add(new Game(winner, loser));
+                _players.UpdateRatings(winner, loser);
             }
 
             return Redirect("~/");
         }
 
+    }
+
+    public class GameOutcome
+    {
+        public long WinnerId { get; set; }
+        public long LoserId { get; set; }
     }
 }

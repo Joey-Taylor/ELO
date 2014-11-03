@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EloWeb.Models
 {
@@ -10,8 +11,10 @@ namespace EloWeb.Models
 
         public long GameId { get; set; }
         public virtual Player Winner { get; set; }
+        public long ID { get; set; }
+        public long WinnerId { get; set; }           
         public long WinnerRating { get; set; }
-        public virtual Player Loser { get; set; }
+        public long LoserId { get; set; }        
         public long LoserRating { get; set; }
 		/// <summary>
         /// The time at which this game happened
@@ -24,9 +27,29 @@ namespace EloWeb.Models
         /// Default constructor which sets the Time as DateTime.UtcNow
         /// </summary>
         public Game()
+
+        [ForeignKey("WinnerId")] 
+        public virtual Player Winner { get; set; }
+        [ForeignKey("LoserId")]
+        public virtual Player Loser { get; set; }        
+
+        public Game() { }
+
+        public Game(Player winner, Player loser)
+        {
+            this.WinnerId = winner.ID;
+            this.WinnerRating = winner.Rating;
+            this.LoserId = loser.ID;
+            this.LoserRating = loser.Rating;
+            this.Date = DateTime.Now;   
+        }
+        
+        public override string ToString()
         {
             Date = DateTime.UtcNow;
         }
+            return String.Format("{0} {1} {2}", WinnerId, "beat" ,LoserId);
+        }       
 
         public static Game Deserialize(string game)
         {

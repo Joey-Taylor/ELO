@@ -18,12 +18,17 @@ namespace EloWeb.Models
             _db.SaveChanges();
         }
 
+        public Player Get(long id)
+        {
+            return _db.Players.Find(id);
+        }
+
         public IEnumerable<Player> All()
         {
             return _db.Players.ToList();
         }
 
-        public IEnumerable<Player> Active()
+        public List<Player> Active()
         {
             return _db.Players.Where(p => p.IsActive).ToList();
         }
@@ -36,6 +41,13 @@ namespace EloWeb.Models
         public Player PlayerByName(string name)
         {
             return _db.Players.Single(p => p.Name == name);
+        }
+
+        public void UpdateRatings(Player winner, Player loser)
+        {
+            int pointsExchanged = EloCalc.PointsExchanged(winner.Rating, loser.Rating);
+            loser.GivePoints(pointsExchanged, winner);
+            _db.SaveChanges();
         }
     }
 }
