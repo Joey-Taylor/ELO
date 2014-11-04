@@ -70,10 +70,9 @@ namespace EloWeb.Models
             get { return _ratings.Min(); }
         }
 
-        public string RecentForm
+        public IEnumerable<Game> RecentGames(int n)
         {
-            // TODO
-            get { return Wins.Union(Losses).OrderByDescending(g => g.Date).Take(5).ToList().ToString(); }
+            return Wins.Union(Losses).OrderByDescending(g => g.Date).Take(5).ToList();
         }
         public int LongestWinningStreak
         {
@@ -126,13 +125,16 @@ namespace EloWeb.Models
             get { return new List<Result>().ToEnumerable(); }     
         } 
 
-        public int WinRate
+        public int WinRate()
         {
-            get { return 50; }
-            // TODO
-//            var total = Wins.Count + Losses.Count;
-//            if (total == 0) return 0;
-//            return (int) Math.Round((decimal) Wins.Count/total*100);
+            if (Wins == null || Wins.Count == 0)
+            {
+                return 0;
+            }
+
+            var total = Wins.Count + Losses.Count;
+            if (total == 0) return 0;
+            return (int) Math.Round((decimal) Wins.Count/total*100);
             
         }
 

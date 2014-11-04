@@ -41,8 +41,10 @@ namespace EloWeb.Models
         public Player PlayerByName(string name)
         {
             return _db.Players
-                .Include("Wins")
+                .Include("Wins") 
+                .Include("Wins.Loser")
                 .Include("Losses")
+                .Include("Losses.Winner")
                 .Single(p => p.Name == name);
         }
 

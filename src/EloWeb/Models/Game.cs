@@ -47,8 +47,7 @@ namespace EloWeb.Models
         public override string ToString()
         {
             Date = DateTime.UtcNow;
-        }
-            return String.Format("{0} {1} {2}", WinnerId, "beat" ,LoserId);
+            return String.Format("{0} {1} {2}", Winner.Name, "beat" ,Loser.Name);
         }       
 
         public static Game Deserialize(string game)

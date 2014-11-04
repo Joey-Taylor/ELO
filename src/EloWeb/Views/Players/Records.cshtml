@@ -120,7 +120,7 @@
     <table>
         <tr>
             <th>
-                @Html.ActionLink("Win Rate", "WinRate", "Tables") (@Model.BestWinRate.First().WinRate%)
+                @Html.ActionLink("Win Rate", "WinRate", "Tables") (@Model.BestWinRate.First().WinRate()%)
             </th>
         </tr>
         @foreach (var player in Model.BestWinRate)

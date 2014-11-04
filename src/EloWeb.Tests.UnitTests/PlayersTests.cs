@@ -73,10 +73,10 @@ namespace EloWeb.Tests.UnitTests
             var bob = players.PlayerByName("Bob");
             var richard = players.PlayerByName("Richard");
 
-            Assert.AreEqual("LWW", frank.RecentForm);
-            Assert.AreEqual("WLL", peter.RecentForm);
-            Assert.AreEqual("WWWLW", bob.RecentForm);
-            Assert.AreEqual("LLLWL", richard.RecentForm);
+            Assert.AreEqual("LWW", frank.RecentGames);
+            Assert.AreEqual("WLL", peter.RecentGames);
+            Assert.AreEqual("WWWLW", bob.RecentGames);
+            Assert.AreEqual("LLLWL", richard.RecentGames);
         }
 
         [Test]

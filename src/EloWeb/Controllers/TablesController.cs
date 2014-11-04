@@ -37,8 +37,7 @@ namespace EloWeb.Controllers
 
         public ActionResult WinRate()
         {
-            // TODO
-            var table = _players.All().OrderByDescending(p => p.WinRate);
+            var table = _players.All().OrderByDescending(p => p.WinRate());
             if (!table.Any())
                 return Redirect("~/Players/NewLeague");
 
