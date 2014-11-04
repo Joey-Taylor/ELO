@@ -20,13 +20,10 @@
             @foreach (var game in Model.RecentGames)
             {
                 <tr>
-                    <td>
-                        @game.ToString()
-                    </td>
+                    <td>@game.ToString()</td>
                 </tr>
             }
         </table>
-
 
         <h3>New Game Details</h3>
         <table>
