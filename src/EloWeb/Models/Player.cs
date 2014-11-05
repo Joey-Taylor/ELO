@@ -60,7 +60,6 @@ namespace EloWeb.Models
             get { return Results.Reverse().TakeWhile(r => r == Result.Loss).Count(); }
         }
 
-
         public IEnumerable<IGrouping<String, Game>> WinsByOpponent
         {
             get { return GamesWon.GroupBy(game => game.Loser); }
@@ -79,6 +78,11 @@ namespace EloWeb.Models
         public  IEnumerable<Game> GamesLost
         {
             get { return Games.LossesByPlayer(Name); }
+        }
+
+        public int GamesPlayed
+        {
+            get { return Games.ByPlayer(this).Count(); }
         }
 
         private IEnumerable<Result> Results
@@ -105,12 +109,12 @@ namespace EloWeb.Models
             }
         }
 
-        [DisplayFormat(NullDisplayText = "-")]
-        public int? RatingChange
+        [DisplayFormat(DataFormatString = "{0:+#;-#;0}")]
+        public int RatingChange
         {
             get
             {
-                return _ratings.Count < 2 ? (int?)null : _ratings.First.Value - _ratings.First.Next.Value;
+                return _ratings.Count < 2 ? 0 : _ratings.First.Value - _ratings.First.Next.Value;
             }
         }
 

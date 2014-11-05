@@ -25,6 +25,12 @@
         <th>
             Change
         </th>
+        <th>
+            Played
+        </th>
+        <th>
+            Win Rate
+        </th>
     </tr>
 
 @{ var rank = 1; }
@@ -41,6 +47,12 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.RatingChange)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GamesPlayed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WinRate)%
         </td>
     </tr>
     rank++;
