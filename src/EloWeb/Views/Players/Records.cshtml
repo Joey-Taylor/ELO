@@ -12,7 +12,7 @@
     <table>
         <tr>
             <th>
-                @Html.ActionLink("All-Time Rating", "MaxRating", "Tables") (@Model.MostRatingsPointsEver.First().MaxRating)
+                @Html.ActionLink("All-Time Rating", "MaxRating", "Tables") (@Html.DisplayFor(m => m.MostRatingsPointsEver.First().MaxRating))
             </th>
         </tr>
         @foreach (var player in Model.MostRatingsPointsEver)
@@ -30,7 +30,7 @@
     <table>
         <tr>
             <th>
-                @Html.ActionLink("Current Rating", "Rating", "Tables") (@Model.CurrentTopRanked.First().Rating)
+                @Html.ActionLink("Current Rating", "Rating", "Tables") (@Html.DisplayFor(m => m.CurrentTopRanked.First().Rating))
             </th>
         </tr>
         @foreach (var player in Model.CurrentTopRanked)

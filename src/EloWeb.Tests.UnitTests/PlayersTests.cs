@@ -21,7 +21,7 @@ namespace EloWeb.Tests.UnitTests
             var player = Players.PlayerByName("Richard");
 
             Assert.AreEqual("Richard", player.Name);
-            Assert.AreEqual(1000, player.Rating);
+            Assert.AreEqual(new Rating{Value = 1000}, player.Rating);
         }
 
         [Test]

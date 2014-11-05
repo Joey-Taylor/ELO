@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using EloWeb.Models;
 using EloWeb.Persist;
+using EloWeb.Utils;
 using EloWeb.ViewModels;
 
 namespace EloWeb.Controllers
@@ -30,7 +31,6 @@ namespace EloWeb.Controllers
         // GET: Players/Records
         public ActionResult Records()
         {
-            var allPlayers = Players.All();
             var activePlayers = Players.Active();
 
             if (!activePlayers.Any())
@@ -38,13 +38,13 @@ namespace EloWeb.Controllers
 
             var recordsView = new Records
             {
-                CurrentTopRanked = Record.GetRecordHolders(activePlayers, p => p.Rating),
-                MostRatingsPointsEver = Record.GetRecordHolders(allPlayers, p => p.MaxRating),
-                BestWinRate = Record.GetRecordHolders(activePlayers, p => p.WinRate),
-                LongestWinningStreak = Record.GetRecordHolders(allPlayers, p => p.LongestWinningStreak),
-                CurrentWinningStreak = Record.GetRecordHolders(activePlayers, p => p.CurrentWinningStreak),
-                LongestLosingStreak = Record.GetRecordHolders(allPlayers, p => p.LongestLosingStreak),
-                CurrentLosingStreak = Record.GetRecordHolders(activePlayers, p => p.CurrentLosingStreak),
+                CurrentTopRanked = activePlayers.MaxByAll(p => p.Rating),
+                MostRatingsPointsEver = activePlayers.MaxByAll(p => p.MaxRating),
+                BestWinRate = activePlayers.MaxByAll(p => p.WinRate),
+                LongestWinningStreak = activePlayers.MaxByAll(p => p.LongestWinningStreak),
+                CurrentWinningStreak = activePlayers.MaxByAll(p => p.CurrentWinningStreak),
+                LongestLosingStreak = activePlayers.MaxByAll(p => p.LongestLosingStreak),
+                CurrentLosingStreak = activePlayers.MaxByAll(p => p.CurrentLosingStreak),
             };
 
             ViewData.Model = recordsView;
