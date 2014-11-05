@@ -37,8 +37,6 @@ namespace EloWeb.Tests.UnitTests
             Assert.AreEqual(games, Games.All);
         }
 
-
-
         [Test]
         public void CanRetrieveNMostRecentGames()
         {
@@ -46,6 +44,7 @@ namespace EloWeb.Tests.UnitTests
             var game2 = new Game {Winner = "A", Loser = "C"};
             var game3 = new Game {Winner = "B", Loser = "C"};
 
+            Games.Initialise(new String[0]);
             Games.Add(game1);
             Games.Add(game2);
             Games.Add(game3);
@@ -66,6 +65,7 @@ namespace EloWeb.Tests.UnitTests
             var game2 = new Game { Winner = "A", Loser = "C" };
             var game3 = new Game { Winner = "B", Loser = "C" };
 
+            Games.Initialise(new String[0]);
             Games.Add(game1);
             Games.Add(game2);
             Games.Add(game3);
@@ -80,8 +80,5 @@ namespace EloWeb.Tests.UnitTests
 
             Assert.AreEqual(expected, Games.ByPlayer(player));
         }
-
-
-
     }
 }
