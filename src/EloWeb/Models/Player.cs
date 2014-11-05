@@ -22,7 +22,7 @@ namespace EloWeb.Models
 
         public Rating Rating
         {
-            get { return _ratings.FirstOrDefault(); }
+            get { return _ratings.First(); }
         }
 
         public Rating MaxRating

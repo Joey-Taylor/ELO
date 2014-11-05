@@ -9,6 +9,11 @@ namespace EloWeb.Models
  
         public string Winner { get; set; }
         public string Loser { get; set; }
+
+        /// <summary>
+        /// The time at which this game happened
+        /// Note: This is in UTC
+        /// </summary>
         public DateTime Time { get; set; }
 
         /// <summary>
@@ -19,14 +24,14 @@ namespace EloWeb.Models
             Time = DateTime.UtcNow;
         }
 
-        public static Game FromString(string game)
+        public static Game Deserialize(string game)
         {
             var splitOn = new[] { BEAT, AT };
             var splitString = game.Split(splitOn, StringSplitOptions.None);
             return new Game { Winner = splitString[0].Trim(), Loser = splitString[1].Trim(), Time = DateTime.Parse(splitString[2].Trim()) };
         }
 
-        public override string ToString()
+        public string Serialize()
         {
             return String.Format("{0} {1} {2} {3} {4:O}", Winner, BEAT ,Loser, AT, Time);
         }

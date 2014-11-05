@@ -65,7 +65,7 @@ namespace EloWeb.Controllers
 
         // POST: Players/Create
         [HttpPost]
-        public ActionResult Create(Player player)
+        public ActionResult Create(CreatePlayerViewModel player)
         {
             Players.Add(Player.CreateInitial(player.Name)); 
             PlayersData.PersistPlayer(player.Name);         

@@ -12,8 +12,8 @@ namespace EloWeb.Tests.UnitTests
         {
             var game = new Game {Winner = "A", Loser = "B"};
 
-            var gameString = game.ToString();
-            var recreatedGame = Game.FromString(gameString);
+            var gameString = game.Serialize();
+            var recreatedGame = Game.Deserialize(gameString);
 
             Assert.AreEqual(game, recreatedGame);
         }

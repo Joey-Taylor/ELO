@@ -94,6 +94,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CreatePlayerViewModel.cs" />
     <Compile Include="Models\EloCalc.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Games.cs" />
@@ -163,6 +164,8 @@
     <Content Include="Views\Tables\WorstEverLosingStreak.cshtml" />
     <Content Include="Views\Rules\Index.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Rating.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Game.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CustomDateTime.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

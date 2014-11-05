@@ -1,0 +1,4 @@
+﻿@model EloWeb.Models.Game
+@Html.ActionLink(Model.Winner, "Details", "Players", new { name = Model.Winner }, null) beat
+@Html.ActionLink(Model.Loser, "Details", "Players", new { name = Model.Loser }, null)
+(@Html.DisplayFor(m => m.Time, "CustomDateTime"))
