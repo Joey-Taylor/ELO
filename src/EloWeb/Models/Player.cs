@@ -76,8 +76,7 @@ namespace EloWeb.Models
        
         public int LongestWinningStreak()
         {
-            // TODO
-            return 5;
+            return Games.OrderByDescending(g => g.Date).LengthOfLongestSequence(g => g.WinnerId == ID);            
         }
         public int CurrentWinningStreak()
         {
@@ -96,8 +95,7 @@ namespace EloWeb.Models
         }
         public int LongestLosingStreak()
         {
-            // TODO
-            return 7;
+            return Games.OrderByDescending(g => g.Date).LengthOfLongestSequence(g => g.LoserId == ID);   
         }
         public int CurrentLosingStreak()
         {
