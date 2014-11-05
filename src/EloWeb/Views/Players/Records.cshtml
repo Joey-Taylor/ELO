@@ -48,7 +48,7 @@
     <table>
         <tr>
             <th>
-                @Html.ActionLink("All-Time Winning Streak", "BestEverWinningStreak", "Tables") (@Model.LongestWinningStreak.First().LongestWinningStreak)
+                @Html.ActionLink("All-Time Winning Streak", "BestEverWinningStreak", "Tables") (@Model.LongestWinningStreak.First().LongestWinningStreak())
             </th>
         </tr>
         @foreach (var player in Model.LongestWinningStreak)
@@ -66,7 +66,7 @@
     <table>
         <tr>
             <th>
-                @Html.ActionLink("Current Winning Streak", "WinningStreak", "Tables") (@Model.CurrentWinningStreak.First().CurrentWinningStreak)
+                @Html.ActionLink("Current Winning Streak", "WinningStreak", "Tables") (@Model.CurrentWinningStreak.First().CurrentWinningStreak())
             </th>
         </tr>
         @foreach (var player in Model.CurrentWinningStreak)
@@ -84,7 +84,7 @@
     <table>
         <tr>
             <th>
-                @Html.ActionLink("All-Time Losing Streak", "WorstEverLosingStreak", "Tables") (@Model.LongestLosingStreak.First().LongestLosingStreak)
+                @Html.ActionLink("All-Time Losing Streak", "WorstEverLosingStreak", "Tables") (@Model.LongestLosingStreak.First().LongestLosingStreak())
             </th>
         </tr>
         @foreach (var player in Model.LongestLosingStreak)
@@ -102,7 +102,7 @@
     <table>
         <tr>
             <th>
-                @Html.ActionLink("Current Losing Streak", "LosingStreak", "Tables") (@Model.CurrentLosingStreak.First().CurrentLosingStreak)
+                @Html.ActionLink("Current Losing Streak", "LosingStreak", "Tables") (@Model.CurrentLosingStreak.First().CurrentLosingStreak())
             </th>
         </tr>
         @foreach (var player in Model.CurrentLosingStreak)

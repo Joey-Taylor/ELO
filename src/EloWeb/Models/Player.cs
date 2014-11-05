@@ -18,7 +18,8 @@ namespace EloWeb.Models
         public bool IsActive { get; set; }
 
         public virtual ICollection<Game> Wins { get; set; }
-        public virtual ICollection<Game> Losses { get; set; } 
+        public virtual ICollection<Game> Losses { get; set; }
+        public IEnumerable<Game> Games { get { return Wins.Union(Losses); } }
 
         public Player() { }
         public Player(string name)
@@ -38,33 +39,32 @@ namespace EloWeb.Models
         public string Name { get; set; }
 
         public Rating Rating
+        public int MaxRating()
         {
        
             get { return _ratings.First(); }
             get
+            if (Wins.IsNullOrEmpty())
             {
-                if (Wins != null && Wins.Any())
-                {
-                    return Wins.Max(g => g.WinnerRating);
-                }
-                return 0;
+                return Rating;
             }
+            return Wins.Max(g => g.WinnerRating);                
+            
         }
 
         public Rating MaxRating
 
         public int MinRating
+        public int MinRating()
         {
             get { return _ratings.Max(); }
             get
+            if (Losses.IsNullOrEmpty())
             {
-                if (Losses != null && Losses.Any())
-                {
-                    return Losses.Min(g => g.LoserRating);
-                }
-                return InitialRating;
+                return Rating;    
             }
-        }
+            return Losses.Min(g => g.LoserRating);                
+        }        
         public Rating MinRating
         {
             get { return _ratings.Min(); }
@@ -72,27 +72,44 @@ namespace EloWeb.Models
 
         public IEnumerable<Game> RecentGames(int n)
         {
-            return Wins.Union(Losses).OrderByDescending(g => g.Date).Take(5).ToList();
+            return Games.OrderByDescending(g => g.Date).Take(n).ToList();
         }
-        public int LongestWinningStreak
+       
+        public int LongestWinningStreak()
         {
             // TODO
-            get { return 5; }
+            return 5;
         }
-        public int CurrentWinningStreak
+        public int CurrentWinningStreak()
+        {
+            if (Losses.IsNullOrEmpty())
+            {
+                if (Wins.IsNullOrEmpty())
+                {
+                    return 0;
+                }
+                return Wins.Count;
+            }
+
+            var lastLoss = Losses.OrderByDescending(l => l.Date).First();
+            var winCount = Wins.OrderByDescending(w => w.Date).TakeWhile(w => w.Date > lastLoss.Date).Count();
+            return winCount;            
+        }
+        public int LongestLosingStreak()
         {
             // TODO
-            get { return 6; }
+            return 7;
         }
-        public int LongestLosingStreak
+        public int CurrentLosingStreak()
         {
-            // TODO
-            get { return 7; }
-        }
-        public int CurrentLosingStreak
-        {
-            // TODO
-            get { return 4; }
+            if (Wins.IsNullOrEmpty())
+            {
+                return Losses.Count;
+            }
+
+            var lastWin = Wins.OrderByDescending(l => l.Date).First();
+            var lossCount = Losses.OrderByDescending(w => w.Date).TakeWhile(w => w.Date > lastWin.Date).Count();
+            return lossCount;            
         }
 
         public IEnumerable<IGrouping<String, Game>> WinsByOpponent
@@ -161,5 +178,21 @@ namespace EloWeb.Models
         {
             AddRating(Rating.Value - points, when);
         }
+            get
+            {
+                if (!Games.Any()) {return 0;}
+                var lastGame = Games.OrderByDescending(g => g.Date).First();
+                var pointsExchanged = EloCalc.PointsExchanged(lastGame.WinnerRating, lastGame.LoserRating);
+
+                if (lastGame.Winner.ID == ID)
+                {
+                    return pointsExchanged;
+                }
+                else
+                {
+                    return - pointsExchanged;
+                }
+            }
+        }        
     }
 }

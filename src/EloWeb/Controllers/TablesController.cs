@@ -27,7 +27,7 @@ namespace EloWeb.Controllers
 
         public ActionResult MaxRating()
         {
-            var table = _players.All().OrderByDescending(p => p.MaxRating);
+            var table = _players.All().OrderByDescending(p => p.MaxRating());
             if (!table.Any())
                 return Redirect("~/Players/NewLeague");
 
@@ -47,7 +47,7 @@ namespace EloWeb.Controllers
 
         public ActionResult WinningStreak()
         {
-            var table = _players.Active().OrderByDescending(p => p.CurrentWinningStreak);
+            var table = _players.Active().OrderByDescending(p => p.CurrentWinningStreak());
             if (!table.Any())
                 return Redirect("~/Players/NewLeague");
 
@@ -57,7 +57,7 @@ namespace EloWeb.Controllers
 
         public ActionResult BestEverWinningStreak()
         {
-            var table = _players.All().OrderByDescending(p => p.LongestWinningStreak);
+            var table = _players.All().OrderByDescending(p => p.LongestWinningStreak());
             if (!table.Any())
                 return Redirect("~/Players/NewLeague");
 
@@ -67,7 +67,7 @@ namespace EloWeb.Controllers
 
         public ActionResult LosingStreak()
         {
-            var table = _players.Active().OrderByDescending(p => p.CurrentLosingStreak);
+            var table = _players.Active().OrderByDescending(p => p.CurrentLosingStreak());
             if (!table.Any())
                 return Redirect("~/Players/NewLeague");
 
@@ -77,7 +77,7 @@ namespace EloWeb.Controllers
 
         public ActionResult WorstEverLosingStreak()
         {
-            var table = _players.All().OrderByDescending(p => p.LongestLosingStreak);
+            var table = _players.All().OrderByDescending(p => p.LongestLosingStreak());
             if (!table.Any())
                 return Redirect("~/Players/NewLeague");
 

@@ -13,29 +13,17 @@
 
 <table class="table">
     <tr>
-        <th>
-            Rank
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LongestLosingStreak)
-        </th>
+        <th>Rank</th>
+        <th>Name</th>
+        <th>Longest losing streak</th>
     </tr>
 
 @{ var rank = 1; }
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @rank
-        </td>
-        <td>
-            @Html.ActionLink(item.Name, "Details", "Players", new { name = item.Name }, null)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LongestLosingStreak)
-        </td>
+        <td>@rank</td>
+        <td>@Html.ActionLink(item.Name, "Details", "Players", new { name = item.Name }, null)</td>
+        <td>@item.LongestLosingStreak()</td>
     </tr>
     rank++;
 }

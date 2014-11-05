@@ -96,8 +96,8 @@
             </tr>
             <tr>
                 <td>@Model.Rating</td>
-                <td>@Model.MinRating</td>
-                <td>@Model.MaxRating</td>
+                <td>@Model.MinRating()</td>
+                <td>@Model.MaxRating()</td>
             </tr>
         </table>
     </div>
@@ -113,8 +113,8 @@
             </tr>
             <tr>
                 <td>@Model.WinRate()%</td>
-                <td>@Model.CurrentWinningStreak</td>
-                <td>@Model.LongestWinningStreak</td>
+                <td>@Model.CurrentWinningStreak()</td>
+                <td>@Model.LongestWinningStreak()</td>
             </tr>
         </table>
     </div>

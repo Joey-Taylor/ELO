@@ -15,6 +15,7 @@ namespace EloWeb
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             Database.SetInitializer<PoolLadderContext>(new PoolLadderDbInitializer());
+            TestDataInitializer.AddTestData();
         }
     }
 }

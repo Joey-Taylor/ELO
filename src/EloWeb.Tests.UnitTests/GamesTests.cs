@@ -20,22 +20,24 @@ namespace EloWeb.Tests.UnitTests
             Assert.AreEqual("A beat B", game.ToString());
         }
 
-        [Test]
-        public void CanAddAGameToTheList()
-        {
-            var gameReposity = new Games(new PoolLadderContext());
-            var playerA = new Player("A");
-            var playerB = new Player("B");
-            var game = new Game {Winner = playerA, Loser = playerB};
-            gameReposity.Add(game);            
+//        [Test]
+//        public void CanAddAGameToTheList()
+//        {
+//            var gameReposity = new Games(new PoolLadderContext());
+//            var playerA = new Player("A");
+//            var playerB = new Player("B");
+//            var game = new Game {Winner = playerA, Loser = playerB};
+//            gameReposity.Add(game);            
+//
+//            var expected = new List<Game>
+//            {
+//                game
+//            };
+//
+//            Assert.AreEqual(expected, Games.All);
+//        }
 
-            var expected = new List<Game>
-            {
-                game
-            };
 
-            Assert.AreEqual(expected, Games.All);
-        }
 
         [Test]
         public void CanRetrieveNMostRecentGames()
