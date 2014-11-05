@@ -107,28 +107,33 @@ namespace EloWeb.Tests.UnitTests
 
         private void InitialiseTestGames()
         {
-            Games.Initialise(new List<String>
+            var games = new Game[]
             {
-                "Peter beat Frank", 
-                "Frank beat Peter", 
-                "Frank beat Peter",
-                "Bob beat Richard",
-                "Bob beat Richard",
-                "Bob beat Richard",
-                "Richard beat Bob",
-                "Bob beat Richard",
-                "Bob beat Richard",
-                "Bob beat Richard",
-                "Richard beat Bob",
-                "Bob beat Richard",
-                "Richard beat Bob",
-                "Bob beat Richard",
-                "Bob beat Richard",
-                "Bob beat Richard",
-                "Bob beat Richard",
-                "Richard beat Bob",
-                "Bob beat Richard"
-            });
+                new Game {Winner = "Peter", Loser = "Frank"},
+                new Game {Winner = "Frank", Loser = "Peter"},
+                new Game {Winner = "Frank", Loser = "Peter"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Richard", Loser = "Bob"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Richard", Loser = "Bob"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Richard", Loser = "Bob"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Richard", Loser = "Bob"},
+                new Game {Winner = "Bob", Loser = "Richard"}
+            };
+
+            foreach (var game in games)
+            {
+                Games.Add(game);
+            }
         }
     }
 }
