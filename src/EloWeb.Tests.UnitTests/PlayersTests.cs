@@ -11,8 +11,9 @@ namespace EloWeb.Tests.UnitTests
         [TestFixtureSetUp]
         public void TestSetup()
         {
-            InitialiseTestPlayers();
+            // The order of these matters
             InitialiseTestGames();
+            InitialiseTestPlayers();
         }
 
         [Test]
@@ -21,7 +22,6 @@ namespace EloWeb.Tests.UnitTests
             var player = Players.PlayerByName("Richard");
 
             Assert.AreEqual("Richard", player.Name);
-            Assert.AreEqual(1000, player.Rating);
         }
 
         [Test]
@@ -107,28 +107,34 @@ namespace EloWeb.Tests.UnitTests
 
         private void InitialiseTestGames()
         {
-            Games.Initialise(new List<String>
+            Games.Initialise(new String[0]);
+            var games = new Game[]
             {
-                "Peter beat Frank", 
-                "Frank beat Peter", 
-                "Frank beat Peter",
-                "Bob beat Richard",
-                "Bob beat Richard",
-                "Bob beat Richard",
-                "Richard beat Bob",
-                "Bob beat Richard",
-                "Bob beat Richard",
-                "Bob beat Richard",
-                "Richard beat Bob",
-                "Bob beat Richard",
-                "Richard beat Bob",
-                "Bob beat Richard",
-                "Bob beat Richard",
-                "Bob beat Richard",
-                "Bob beat Richard",
-                "Richard beat Bob",
-                "Bob beat Richard"
-            });
+                new Game {Winner = "Peter", Loser = "Frank"},
+                new Game {Winner = "Frank", Loser = "Peter"},
+                new Game {Winner = "Frank", Loser = "Peter"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Richard", Loser = "Bob"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Richard", Loser = "Bob"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Richard", Loser = "Bob"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Bob", Loser = "Richard"},
+                new Game {Winner = "Richard", Loser = "Bob"},
+                new Game {Winner = "Bob", Loser = "Richard"}
+            };
+
+            foreach (var game in games)
+            {
+                Games.Add(game);
+            }
         }
     }
 }

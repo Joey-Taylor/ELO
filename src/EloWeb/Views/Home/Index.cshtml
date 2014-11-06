@@ -31,6 +31,9 @@
         <th>
             Win Rate
         </th>
+        <th>
+            Last Change
+        </th>
     </tr>
 
 @{ var rank = 1; }
@@ -46,13 +49,16 @@
             @Html.DisplayFor(modelItem => item.Rating)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.RatingChange)
+            @Html.DisplayFor(modelItem => item.LatestRatingChange)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.GamesPlayed)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.WinRate)%
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rating.TimeFrom, "CustomDateTime")
         </td>
     </tr>
     rank++;

@@ -8,31 +8,31 @@ namespace EloWeb.Models
 {
     public class Player
     {
-        private readonly LinkedList<int> _ratings = new LinkedList<int>();
+        private readonly LinkedList<Rating> _ratings = new LinkedList<Rating>();
         public const int InitialRating = 1000;
 
         public static Player CreateInitial(string name)
         {
             var player = new Player { Name = name };
-            player.AddRating(InitialRating);
+            player.AddRating(InitialRating, DateTime.UtcNow);
             return player;
         }
 
         public string Name { get; set; }
 
-        public int Rating
+        public Rating Rating
         {
-            get { return _ratings.FirstOrDefault(); }
+            get { return _ratings.First(); }
         }
 
-        public int MaxRating
+        public Rating MaxRating
         {
-            get { return _ratings.Count > 0 ? _ratings.Max() : 0; }
+            get { return _ratings.Max(); }
         }
 
-        public int MinRating
+        public Rating MinRating
         {
-            get { return _ratings.Count > 0 ? _ratings.Min() : 0; }
+            get { return _ratings.Min(); }
         }
 
         public string RecentForm
@@ -110,27 +110,27 @@ namespace EloWeb.Models
         }
 
         [DisplayFormat(DataFormatString = "{0:+#;-#;0}")]
-        public int RatingChange
+        public int LatestRatingChange
         {
             get
             {
-                return _ratings.Count < 2 ? 0 : _ratings.First.Value - _ratings.First.Next.Value;
+                return _ratings.Count < 2 ? 0 : _ratings.First.Value.Value - _ratings.First.Next.Value.Value;
             }
         }
 
-        public void AddRating(int rating)
+        public void AddRating(int rating, DateTime appliesFrom)
         {
-            _ratings.AddFirst(rating);
+            _ratings.AddFirst(new Rating{Value = rating, TimeFrom = appliesFrom});
         }
 
-        public void IncreaseRating(int points)
+        public void IncreaseRating(int points, DateTime when)
         {
-            _ratings.AddFirst(Rating + points);
+            AddRating(Rating.Value + points, when);
         }
 
-        public void DecreaseRating(int points)
+        public void DecreaseRating(int points, DateTime when)
         {
-            _ratings.AddFirst(Rating - points);
+            AddRating(Rating.Value - points, when);
         }
     }
 }

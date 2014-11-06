@@ -27,16 +27,16 @@
         </tr>
         <tr>
             <td>
-                @Model.Rating
+                @Html.DisplayFor(m => m.Rating)
             </td>
             <td>
-                @Model.RatingChange
+                @Html.DisplayFor(m => m.LatestRatingChange)
             </td>
             <td>
-                @Model.MinRating
+                @Html.DisplayFor(m => m.MinRating)
             </td>
             <td>
-                @Model.MaxRating
+                @Html.DisplayFor(m => m.MaxRating)
             </td>
         </tr>
     </table>

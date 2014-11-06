@@ -15,7 +15,7 @@ namespace EloWeb.Models
 
         public static void Initialise(IEnumerable<string> games)
         {
-            _games = games.Select(Game.FromString).ToList();
+            _games = games.Select(Game.Deserialize).ToList();
         }
 
         public static void Add(Game game)

@@ -26,8 +26,8 @@ namespace EloWeb.Models
 
             var pointsExchanged = EloCalc.PointsExchanged(winner.Rating, loser.Rating);
 
-            winner.IncreaseRating(pointsExchanged);
-            loser.DecreaseRating(pointsExchanged);
+            winner.IncreaseRating(pointsExchanged, game.Time);
+            loser.DecreaseRating(pointsExchanged, game.Time);
         }
 
         public static IEnumerable<Player> All()
