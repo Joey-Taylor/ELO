@@ -12,6 +12,9 @@ namespace EloWeb
     {
         private static readonly PoolLadderContext db = new PoolLadderContext();
 
+        private const string BEAT = "beat";
+        private const string AT = "at";
+
         public static void Load(string path)
         {
             if (Directory.Exists(path))
@@ -41,21 +44,23 @@ namespace EloWeb
         {
             var players = new Players(db);
             var games = new Games(db);
+            var ratings = new Ratings(db);
+
             foreach (var gameString in gameStrings)
             {
-                var game = games.Add(GameFromString(gameString, players));
-                players.UpdateRatings(game.Winner, game.Loser);
+                var game = games.Add(Deserialize(gameString, players));
+                ratings.UpdateRatings(game.Winner, game.Loser);
             }
         }
 
-        private static Game GameFromString(string game, Players players)
+        private static Game Deserialize(string game, Players players)
         {
-            var splitOn = new[] { "beat" };
-            var playerNames = game.Split(splitOn, StringSplitOptions.None);
-            var winner = players.PlayerByName(playerNames[0].Trim());
-            var loser = players.PlayerByName(playerNames[1].Trim());
-
-            return new Game { Winner = winner, Loser = loser };
+            var splitOn = new[] { BEAT, AT };
+            var splitString = game.Split(splitOn, StringSplitOptions.None);
+            var winner = players.PlayerByName(splitString[0].Trim());
+            var loser = players.PlayerByName(splitString[1].Trim());          
+            
+            return new Game { Winner = winner, Loser = loser, Date = DateTime.Parse(splitString[2].Trim()) };
         }
     }
 }

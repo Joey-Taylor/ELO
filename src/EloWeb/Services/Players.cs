@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EloWeb.Models;
 
-namespace EloWeb.Models
+namespace EloWeb.Services
 {
     public class Players
     {
@@ -46,13 +47,6 @@ namespace EloWeb.Models
                 .Include("Losses")
                 .Include("Losses.Winner")
                 .Single(p => p.Name == name);
-        }
-
-        public void UpdateRatings(Player winner, Player loser)
-        {
-            int pointsExchanged = EloCalc.PointsExchanged(winner.Rating, loser.Rating);
-            loser.GivePoints(pointsExchanged, winner);
-            _db.SaveChanges();
-        }
+        }        
     }
 }

@@ -11,16 +11,18 @@ namespace EloWeb.Controllers
     {
         private readonly Games _games;
         private readonly Players _players;
-        public GamesController(Games games, Players players)
+        private readonly Ratings _ratings;
+        public GamesController(Games games, Players players, Ratings ratings)
         {
             _games = games;
             _players = players;
+            _ratings = ratings;
         }
 
         // GET: Games
         public ActionResult Index()
         {
-            var leaderboard = _players.All().OrderByDescending(p => p.Rating);
+            var leaderboard = _players.All().OrderByDescending(p => p.CurrentRating);
             if (!leaderboard.Any())
                 return Redirect("~/Players/NewLeague");
 
@@ -64,7 +66,7 @@ namespace EloWeb.Controllers
                 var winner = _players.Get(gameOutcome.WinnerId);
                 var loser = _players.Get(gameOutcome.LoserId);
                 _games.Add(new Game(winner, loser));
-                _players.UpdateRatings(winner, loser);
+                _ratings.UpdateRatings(winner, loser);
             }
 
             return Redirect("~/");

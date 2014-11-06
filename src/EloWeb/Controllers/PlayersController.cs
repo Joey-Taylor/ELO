@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using EloWeb.Models;
+using EloWeb.Services;
 using EloWeb.Utils;
 using EloWeb.ViewModels;
 
@@ -18,7 +19,7 @@ namespace EloWeb.Controllers
         // GET: Players
         public ActionResult Index()
         {
-            var leaderboard = _players.All().OrderByDescending(p => p.Rating);
+            var leaderboard = _players.All().OrderByDescending(p => p.CurrentRating);
             if (!leaderboard.Any())
                 return Redirect("~/Players/NewLeague");
 
@@ -44,7 +45,7 @@ namespace EloWeb.Controllers
 
             var recordsView = new Records
             {
-                CurrentTopRanked = activePlayers.MaxByAll(p => p.Rating),
+                CurrentTopRanked = activePlayers.MaxByAll(p => p.CurrentRating),
                 MostRatingsPointsEver = activePlayers.MaxByAll(p => p.MaxRating),
                 BestWinRate = activePlayers.MaxByAll(p => p.WinRate),
                 LongestWinningStreak = activePlayers.MaxByAll(p => p.LongestWinningStreak),

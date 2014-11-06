@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using EloWeb.Models;
+using EloWeb.Services;
 using Ninject;
 using NUnit.Framework;
 
@@ -12,31 +13,29 @@ namespace EloWeb.Tests.UnitTests
         [TestFixtureSetUp]
         public void TestSetup()
         {
-            _players = new Players(new PoolLadderContext());
+             players = Kernel.Get<Players>();
 
+            // TODO
             // The order of these matters
-            InitialiseTestGames();
-            InitialiseTestPlayers();
-            players = new Players();
-            
-        [SetUp]
-        public void TestSetup() {                    
-            players = Kernel.Get<Players>();
+//            InitialiseTestGames();
+//            InitialiseTestPlayers();
         }
 
         [Test]
         public void CanParsePlayerDescriptionText()
         {   
-            var player = Players.PlayerByName("Richard");
-
-            Assert.AreEqual("Richard", player.Name);
+            
         }
 
         [Test]
-        public void CanGetPlayerTotalGamesWon()
+        public void CanGetPlayerTotalGamesWon() { }
+        
+        [Test]
         public void CanGetAPlayerByName()
         {
-            
+            var player = players.PlayerByName("Richard");
+
+            Assert.AreEqual("Richard", player.Name);
         }
 
         [Test]
@@ -51,10 +50,6 @@ namespace EloWeb.Tests.UnitTests
 
         }
 
-        [Test]
-        public void RatingChangesArePersisted()
-        {
-            
-        }
+
     }
 }

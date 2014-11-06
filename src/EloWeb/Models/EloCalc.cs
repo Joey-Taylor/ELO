@@ -7,12 +7,9 @@ namespace EloWeb.Models
         public const int KFactor = 50;
         private const int Volatility = 400;
 
-        public static int PointsExchanged(Rating winnerRating, Rating loserRating)
+        public static int PointsExchanged(int winnerRating, int loserRating)
         {
-            var difference = (double)loserRating.Value - winnerRating.Value;
-            var expected = 1 / (1 + (Math.Pow(10,(difference/Volatility))));
-            var expected = ExpectedOutcome(winnerRating, loserRating);
-            
+            var expected = ExpectedOutcome(winnerRating, loserRating);            
             var exchanged = (Int32)Math.Round((KFactor * (1 - expected)), MidpointRounding.AwayFromZero);
             return exchanged;
         }

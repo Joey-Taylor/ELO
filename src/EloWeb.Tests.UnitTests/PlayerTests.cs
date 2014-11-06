@@ -12,22 +12,13 @@ namespace EloWeb.Tests.UnitTests
         {
             var frank = new Player("Frank");
             
-            Assert.That(frank.Rating, Is.EqualTo(Player.InitialRating));
+            Assert.That(frank.CurrentRating, Is.EqualTo(Player.InitialRating));
         }
 
         [Test]
         public void RatingPointsAreExchanged()
         {
-            var frank = new Player("Frank");
-            var frankOriginalRating = frank.Rating;
-            var dave = new Player("Dave");
-            var daveOriginalRating = dave.Rating;
-            var pointsExchanged = 10;
 
-            frank.GivePoints(10, dave);
-
-            Assert.That(frank.Rating, Is.EqualTo(frankOriginalRating - pointsExchanged));
-            Assert.That(dave.Rating, Is.EqualTo(daveOriginalRating + pointsExchanged));
         }
 
         [Test]

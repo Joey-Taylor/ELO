@@ -7,6 +7,7 @@ namespace EloWeb.Models
         public PoolLadderContext() : base("PoolLadderDatabase") { }
         public DbSet<Player> Players { get; set; }
         public DbSet<Game> Games { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

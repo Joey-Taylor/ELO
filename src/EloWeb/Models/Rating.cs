@@ -5,10 +5,11 @@ namespace EloWeb.Models
     /// <summary>
     /// Represents a player's rating
     /// </summary>
-    public struct Rating : IComparable<Rating>, IComparable, IEquatable<Rating>
+    public class Rating : IComparable<Rating>, IComparable, IEquatable<Rating>
     {
+        public long PlayerId { get; set; }
         /// <summary>
-        /// The value of the rating.
+        /// The numeric value of the rating.
         /// </summary>
         public int Value { get; set; }
 
