@@ -5,7 +5,7 @@ namespace EloWeb.Models
     public class Game
     {
         private const string BEAT = "beat";
-        private const string AT = "at";
+        private const string AT = "<at>";
  
         public string Winner { get; set; }
         public string Loser { get; set; }
