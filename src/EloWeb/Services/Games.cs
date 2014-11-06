@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using EloWeb.Models;
 
-namespace EloWeb.Models
+namespace EloWeb.Services
 {
     public class Games
     {
@@ -12,10 +12,11 @@ namespace EloWeb.Models
             _db = dbContext;
         }
 
-        public void Add(Game game)
+        public Game Add(Game game)
         {
             _db.Games.Add(game);
             _db.SaveChanges();
+            return game;
         }
 
         public IEnumerable<Game> All()
