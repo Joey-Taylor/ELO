@@ -11,6 +11,9 @@ namespace EloWeb
     public class LoadModelsFromTextFiles
     {
         private static readonly PoolLadderContext db = new PoolLadderContext();
+        private static readonly Games Games = new Games(db);
+        private static readonly Ratings Ratings = new Ratings(db);
+        private static readonly Players Players = new Players(db, Ratings);
 
         private const string BEAT = "beat";
         private const string AT = "at";
@@ -19,8 +22,12 @@ namespace EloWeb
         {
             if (Directory.Exists(path))
             {
-                SavePlayers(File.ReadLines(path + "Players.txt"));
-                SaveGames(File.ReadLines(path + "Games.txt"));
+                try
+                {
+                    SavePlayers(File.ReadLines(path + "Players.txt"));
+                    SaveGames(File.ReadLines(path + "Games.txt"));
+                }
+                catch (FileNotFoundException e) { }
             }            
         }
 
@@ -33,7 +40,7 @@ namespace EloWeb
                 if (!addedNames.Contains(name) && !dbNames.Contains(name))
                 {
                     var player = new Player(name);
-                    db.Players.Add(player);
+                    Players.Add(player);
                     addedNames.Add(name);
                 }
             }
@@ -41,24 +48,20 @@ namespace EloWeb
         }
 
         private static void SaveGames(IEnumerable<string> gameStrings)
-        {            
-            var games = new Games(db);
-            var ratings = new Ratings(db);
-            var players = new Players(db, ratings);
-
+        {                       
             foreach (var gameString in gameStrings)
             {
-                var game = games.Add(Deserialize(gameString, players));
-                ratings.UpdateRatings(game.Winner, game.Loser);
+                var game = Games.Add(Deserialize(gameString));
+                Ratings.UpdateRatings(game.Winner, game.Loser);
             }
         }
 
-        private static Game Deserialize(string game, Players players)
+        private static Game Deserialize(string game)
         {
             var splitOn = new[] { BEAT, AT };
             var splitString = game.Split(splitOn, StringSplitOptions.None);
-            var winner = players.PlayerByName(splitString[0].Trim());
-            var loser = players.PlayerByName(splitString[1].Trim());          
+            var winner = Players.PlayerByName(splitString[0].Trim());
+            var loser = Players.PlayerByName(splitString[1].Trim());          
             
             return new Game { Winner = winner, Loser = loser, Date = DateTime.Parse(splitString[2].Trim()) };
         }

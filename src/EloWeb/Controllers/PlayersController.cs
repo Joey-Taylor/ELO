@@ -37,7 +37,6 @@ namespace EloWeb.Controllers
         // GET: Players/Records
         public ActionResult Records()
         {
-            var allPlayers = _players.All();
             var activePlayers = _players.Active();
 
             if (!activePlayers.Any())

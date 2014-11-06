@@ -26,7 +26,10 @@ namespace EloWeb.Models
 
         public Rating CurrentRating
         {
-            get { return Ratings.First(); } 
+            get
+            {
+                return Ratings.First();                                    
+            } 
         }
 
         public Rating MaxRating

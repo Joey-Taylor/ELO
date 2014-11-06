@@ -9,7 +9,7 @@ namespace EloWeb.Models
     {
         public long ID { get; set; }
         public long PlayerId { get; set; }
-        public long GameId { get; set; }
+        public long? GameId { get; set; }
 
         public virtual Player Player { get; set; }
         public virtual Game Game { get; set; }

@@ -10,31 +10,31 @@
 @Html.ActionLink("Add Game", "Create", "Games", null, new {@class = "btn btn-primary"}) | @Html.ActionLink("Add Player", "Create", "Players", null, new {@class = "btn btn-default"})
 </h4>
 
-<table class="table">
+<table class="table table-striped">
 	<thead>
-    <tr>
-        <th>Rankth>
-        <th>Html.DisplayNameFor(model => model.Name)</th>
-        <th>@Html.DisplayNameFor(model => model.Rating)</th>
-        <th>Change</th>
-        <th>Played</th>
-        <th>Win Rate</th>
-        <th>Last Change</th>
-    </tr>
-</thead>
-<tbody>
-@{ var rank = 1; }
-@foreach (var item in Model) {
-    <tr>
-        <td>@rank</td>
-        <td>@Html.ActionLink(item.Name, "Details", "Players", new { name = item.Name }, null)</td>
-        <td>@Html.DisplayFor(modelItem => item.Rating)</td>
-        <td>@Html.DisplayFor(modelItem => item.LatestRatingChange)</td>
-        <td>@Html.DisplayFor(modelItem => item.GamesPlayed)</td>
-        <td>@Html.DisplayFor(modelItem => item.WinRate)%</td>
-        <td>@Html.DisplayFor(modelItem => item.Rating.TimeFrom, "CustomDateTime")</td>
-    </tr>
-    rank++;
-}
-</tbody>
+        <tr>
+            <th>Rank</th>
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>@Html.DisplayNameFor(model => model.CurrentRating)</th>
+            <th>Last Change</th>
+            <th>Played</th>
+            <th>Win Rate</th>
+            <th>Date</th>            
+        </tr>
+    </thead>
+    <tbody>
+    @{ var rank = 1; }
+    @foreach (var item in Model) {
+        <tr>
+            <td>@rank</td>
+            <td>@Html.ActionLink(item.Name, "Details", "Players", new { name = item.Name }, null)</td>
+            <td>@Html.DisplayFor(modelItem => item.CurrentRating)</td>
+            <td>@Html.DisplayFor(modelItem => item.LatestRatingChange)</td>
+            <td></td>
+            <td>@Html.DisplayFor(modelItem => item.WinRate)%</td>
+            <td>@Html.DisplayFor(modelItem => item.CurrentRating.TimeFrom, "CustomDateTime")</td>
+        </tr>
+        rank++;
+    }
+    </tbody>
 </table>

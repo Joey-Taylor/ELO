@@ -30,7 +30,7 @@ namespace EloWeb.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Rating>()
-                .HasRequired<Game>(r => r.Game)
+                .HasOptional<Game>(r => r.Game)
                 .WithMany(g => g.Ratings)
                 .HasForeignKey(r => r.GameId)
                 .WillCascadeOnDelete(false);   

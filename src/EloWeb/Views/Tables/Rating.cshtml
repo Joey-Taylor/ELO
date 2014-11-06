@@ -24,7 +24,7 @@
     <tr>
         <td>@rank</td>
         <td>@Html.ActionLink(item.Name, "Details", "Players", new { name = item.Name }, null)</td>
-        <td>@Html.DisplayFor(modelItem => item.Rating)</td>
+        <td>@Html.DisplayFor(modelItem => item.CurrentRating)</td>
         <td>@Html.DisplayFor(modelItem => item.LatestRatingChange)</td>
     </tr>
     rank++;

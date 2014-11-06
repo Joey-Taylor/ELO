@@ -15,7 +15,8 @@ namespace EloWeb.Services
         public void AddRating(Player player, int ratingPoints, DateTime appliesFrom)
         {
             var rating = new Rating {PlayerId = player.ID, Value = ratingPoints, TimeFrom = appliesFrom};
-            db.Ratings.Add(rating);            
+            db.Ratings.Add(rating);
+            db.SaveChanges();
         }
 
         public void GivePoints(int pointsExchanged, Player winner, Player loser)

@@ -19,8 +19,8 @@ namespace EloWeb.Services
         public void Add(Player player)
         {
             _db.Players.Add(player);
-            _ratings.AddRating(player, Ratings.InitialRating, DateTime.Now);
             _db.SaveChanges();
+            _ratings.AddRating(player, Ratings.InitialRating, DateTime.Now);            
         }
 
         public Player Get(long id)
@@ -62,10 +62,10 @@ namespace EloWeb.Services
         {
             return _db.Players
                 .Include("Ratings")
-//                .Include("Wins")
-//                .Include("Losses")
-                .Where(p => p.IsActive && p.Games.Any())
-                .ToList();
+                .Include("Wins")
+                .Include("Losses")
+                .Where(p => p.IsActive && p.Ratings.Any())
+                ;
         }
     }
 }
