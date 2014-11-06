@@ -1,14 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using EloWeb.Models;
+using Ninject;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace EloWeb.Tests.UnitTests
 {
-    class PlayersTests
+    class PlayersTests : ServiceTestsBase
     {
-        private Players _players;
+        private Players players;
 
         [TestFixtureSetUp]
         public void TestSetup()
@@ -20,6 +19,9 @@ namespace EloWeb.Tests.UnitTests
             InitialiseTestPlayers();
             players = new Players();
             
+        [SetUp]
+        public void TestSetup() {                    
+            players = Kernel.Get<Players>();
         }
 
         [Test]
@@ -32,104 +34,27 @@ namespace EloWeb.Tests.UnitTests
 
         [Test]
         public void CanGetPlayerTotalGamesWon()
+        public void CanGetAPlayerByName()
         {
-            var player = _players.PlayerByName("Frank");
-
-            Assert.AreEqual(2, player.Wins.Count());
+            
         }
 
         [Test]
-        public void CanGetPlayerTotalGamesLost()
+        public void PlayerNamesMustBeUnique()
         {
-            var player = _players.PlayerByName("Frank");
 
-            Assert.AreEqual(1, player.Losses.Count());
         }
 
         [Test]
-        public void CanGetWinsByOpponents()
+        public void CanGetOnlyActivePlayers()
         {
-            var player = _players.PlayerByName("Frank");
 
-            var winsAgainstPeter = player.WinsByOpponent.First(p => p.Key == "Peter");
-
-            Assert.AreEqual(2, winsAgainstPeter.Count());
         }
 
         [Test]
-        public void CanGetLossesByOpponent()
+        public void RatingChangesArePersisted()
         {
-            var player = _players.PlayerByName("Frank");
-
-            var lossesAgainstPeter = player.LossesByOpponent.First(p => p.Key == "Peter");
-
-            Assert.AreEqual(1, lossesAgainstPeter.Count());
-        }
-
-//        [Test]
-//        public void CanGetWinLossString()
-//        {
-//            var frank = _players.PlayerByName("Frank");
-//            var peter = _players.PlayerByName("Peter");
-//            var bob = _players.PlayerByName("Bob");
-//            var richard = _players.PlayerByName("Richard");
-//
-//            Assert.AreEqual("LWW", frank.RecentGames);
-//            Assert.AreEqual("WLL", peter.RecentGames);
-//            Assert.AreEqual("WWWLW", bob.RecentGames);
-//            Assert.AreEqual("LLLWL", richard.RecentGames);
-//        }
-
-        [Test]
-        public void CanGetWinningStreak()
-        {
-            var bob = _players.PlayerByName("Bob");
-
-            Assert.AreEqual(4, bob.LongestWinningStreak());
-            Assert.AreEqual(1, bob.CurrentWinningStreak());
-        }
-
-//        [Test]
-//        public void CanGetLosingStreak()
-//        {
-//            var richard = _players.PlayerByName("Richard");
-//
-//            Assert.AreEqual(4, richard.LongestLosingStreak);
-//            Assert.AreEqual(1, richard.CurrentLosingStreak);
-//        }
-
-//        [Test]
-//        public void CanGetWinRate()
-//        {
-//            var richard = _players.PlayerByName("Richard");
-//
-//            Assert.AreEqual(25, richard.WinRate);
-//        }
-
-        private void InitialiseTestGames()
-        {
-//            Games.Add(new List<String>
-//            {
-//                "Peter beat Frank", 
-//                "Frank beat Peter", 
-//                "Frank beat Peter",
-//                "Bob beat Richard",
-//                "Bob beat Richard",
-//                "Bob beat Richard",
-//                "Richard beat Bob",
-//                "Bob beat Richard",
-//                "Bob beat Richard",
-//                "Bob beat Richard",
-//                "Richard beat Bob",
-//                "Bob beat Richard",
-//                "Richard beat Bob",
-//                "Bob beat Richard",
-//                "Bob beat Richard",
-//                "Bob beat Richard",
-//                "Bob beat Richard",
-//                "Richard beat Bob",
-//                "Bob beat Richard"
-//            });
+            
         }
     }
 }

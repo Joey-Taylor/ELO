@@ -106,6 +106,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\LoadModelsFromTextFiles.cs" />
     <Compile Include="App_Start\TestDataInitializer.cs" />
     <Compile Include="App_Start\PoolLadderDbInitializer.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -125,11 +126,11 @@
     <Compile Include="Models\PoolLadderContext.cs" />
     <Compile Include="Models\EloCalc.cs" />
     <Compile Include="Models\Game.cs" />
-    <Compile Include="Models\Games.cs" />
+    <Compile Include="Services\Games.cs" />
     <Compile Include="Models\Player.cs" />
-    <Compile Include="Models\Players.cs" />
+    <Compile Include="Services\IGames.cs" />
+    <Compile Include="Services\Players.cs" />
     <Compile Include="Models\Rating.cs" />
-    <Compile Include="Models\Result.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\EnumerableExtensions.cs" />
     <Compile Include="Utils\StringExtensions.cs" />

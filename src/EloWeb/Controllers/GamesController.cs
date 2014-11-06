@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using EloWeb.Models;
+using EloWeb.Services;
 using EloWeb.ViewModels;
 
 namespace EloWeb.Controllers
