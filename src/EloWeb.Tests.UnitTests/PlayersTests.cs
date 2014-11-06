@@ -11,8 +11,9 @@ namespace EloWeb.Tests.UnitTests
         [TestFixtureSetUp]
         public void TestSetup()
         {
-            InitialiseTestPlayers();
+            // The order of these matters
             InitialiseTestGames();
+            InitialiseTestPlayers();
         }
 
         [Test]
@@ -21,7 +22,6 @@ namespace EloWeb.Tests.UnitTests
             var player = Players.PlayerByName("Richard");
 
             Assert.AreEqual("Richard", player.Name);
-            Assert.AreEqual(new Rating{Value = 1000}, player.Rating);
         }
 
         [Test]
@@ -107,6 +107,7 @@ namespace EloWeb.Tests.UnitTests
 
         private void InitialiseTestGames()
         {
+            Games.Initialise(new String[0]);
             var games = new Game[]
             {
                 new Game {Winner = "Peter", Loser = "Frank"},
