@@ -25,7 +25,7 @@
         <tr>
             <td>@rank</td>
             <td>@Html.ActionLink(item.Name, "Details", "Players", new { name = item.Name }, null)</td>
-            <td>@item.LongestWinningStreak()</td>
+            <td>@item.LongestWinningStreak</td>
         </tr>
         rank++;
     }

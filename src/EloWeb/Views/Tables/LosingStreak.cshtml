@@ -23,7 +23,7 @@
     <tr>
         <td>@rank</td>
         <td>@Html.ActionLink(item.Name, "Details", "Players", new { name = item.Name }, null)</td>
-        <td>@item.CurrentLosingStreak()</td>
+        <td>@item.CurrentLosingStreak</td>
     </tr>
     rank++;
 }

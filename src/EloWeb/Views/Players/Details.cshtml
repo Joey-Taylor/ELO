@@ -11,69 +11,22 @@
     <div class="col-md-12">
         <h3>Rating</h3>
         <table class="table">
-
-<div>
-    <h3>Rating</h3>
-    <table class="table">
-        <tr>
-            <th>
-                Current                
-            </th>
-            <th>
-                Last Change
-            </th>
-            <th>
-                Lowest
-            </th>
-            <th>
-                Highest
-            </th>
-        </tr>
-        <tr>
-            <td>@Html.DisplayFor(m => m.CurrentRating)</td>
-            <td>@Html.DisplayFor(m => m.LatestRatingChange)</td>
-            <td>@Html.DisplayFor(m => m.MinRating)</td>
-            <td>@Html.DisplayFor(m => m.MaxRating)</td>
-        </tr>
-    </table>
-</div>
-
-<hr/>
-
-<div>
-    <h3>Form</h3>
-    <table class="table">
-        <tr>
-            <th>Win Rate</th>
-            <th>Current Consecutive Wins</th>
-            <th>Most Consecutive Wins</th>
-       </tr>
-        <tr>
-            <td>@Model.WinRate%</td>
-            <td>@Model.CurrentWinningStreak</td>
-            <td>@Model.LongestWinningStreak</td>
-        </tr>        
-    </table>
-</div>
-
-<hr/>
-
-<div>
-    <h3>Games Won (@Model.Wins.Count())</h3>
-    <table class="table">
-        @foreach (var group in Model.WinsByOpponent.OrderByDescending(g => g.Count()))
-        {
-            <tr>
-                <th>Current</th>
-                <th>Lowest</th>
-                <th>Highest</th>
-            </tr>
-            <tr>
-                <td>@Model.CurrentRating</td>
-                <td>@Model.MinRating</td>
-                <td>@Model.MaxRating</td>
-            </tr>
-        }
+            <thead>
+                <tr>
+                    <th>Current</th>
+                    <th>Last Change</th>
+                    <th>Lowest</th>
+                    <th>Highest</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayFor(m => m.CurrentRating)</td>
+                    <td>@Html.DisplayFor(m => m.LatestRatingChange)</td>
+                    <td>@Html.DisplayFor(m => m.MinRating)</td>
+                    <td>@Html.DisplayFor(m => m.MaxRating)</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>

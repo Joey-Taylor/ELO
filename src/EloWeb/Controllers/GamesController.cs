@@ -12,6 +12,7 @@ namespace EloWeb.Controllers
         private readonly Games _games;
         private readonly Players _players;
         private readonly Ratings _ratings;
+
         public GamesController(Games games, Players players, Ratings ratings)
         {
             _games = games;

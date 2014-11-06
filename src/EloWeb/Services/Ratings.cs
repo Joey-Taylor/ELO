@@ -22,14 +22,13 @@ namespace EloWeb.Services
         public void GivePoints(int pointsExchanged, Player winner, Player loser)
         {
             AddRating(winner, winner.CurrentRating.Value + pointsExchanged, DateTime.Now);
-            AddRating(winner, winner.CurrentRating.Value - pointsExchanged, DateTime.Now);
+            AddRating(loser, loser.CurrentRating.Value - pointsExchanged, DateTime.Now);
        }
 
         public void UpdateRatings(Player winner, Player loser)
         {
             int pointsExchanged = EloCalc.PointsExchanged(winner.CurrentRating.Value, loser.CurrentRating.Value);
-            GivePoints(pointsExchanged, winner, loser);
-            db.SaveChanges();
+            GivePoints(pointsExchanged, winner, loser);            
         }
     }
 }
