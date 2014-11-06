@@ -52,6 +52,11 @@ namespace EloWeb.Models
             return CompareTo((Rating)obj);
         }
 
+        public override string ToString()
+        {
+            return String.Format("{0} {1}", Value, TimeFrom);
+        }
+
         public static bool operator >(Rating left, Rating right)
         {
             return left.CompareTo(right) > 0;
@@ -70,6 +75,16 @@ namespace EloWeb.Models
         public static bool operator <=(Rating left, Rating right)
         {
             return left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator ==(Rating left, Rating right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Rating left, Rating right)
+        {
+            return !(left == right);
         }
     }
 }
