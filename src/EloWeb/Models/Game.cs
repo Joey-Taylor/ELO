@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EloWeb.Models
@@ -11,6 +12,7 @@ namespace EloWeb.Models
 
         public virtual Player Winner { get; set; }
         public virtual Player Loser { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
 
 		/// <summary>
         /// The time at which this game happened

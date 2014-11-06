@@ -7,7 +7,12 @@ namespace EloWeb.Models
     /// </summary>
     public class Rating : IComparable<Rating>, IComparable, IEquatable<Rating>
     {
+        public long ID { get; set; }
         public long PlayerId { get; set; }
+        public long GameId { get; set; }
+
+        public virtual Player Player { get; set; }
+        public virtual Game Game { get; set; }
         /// <summary>
         /// The numeric value of the rating.
         /// </summary>

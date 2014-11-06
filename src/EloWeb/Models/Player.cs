@@ -7,9 +7,7 @@ using EloWeb.Utils;
 namespace EloWeb.Models
 {
     public class Player
-    {
-        public const int InitialRating = 1000;
-
+    {        
         public long ID { get; set; }
         public string Name { get; set; }        
         public bool IsActive { get; set; }

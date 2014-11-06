@@ -21,6 +21,18 @@ namespace EloWeb.Models
                 .HasRequired<Player>(g => g.Loser)
                 .WithMany(p => p.Losses)
                 .HasForeignKey(g => g.LoserId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Rating>()
+                .HasRequired<Player>(r => r.Player)
+                .WithMany(p => p.Ratings)
+                .HasForeignKey(r => r.PlayerId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Rating>()
+                .HasRequired<Game>(r => r.Game)
+                .WithMany(g => g.Ratings)
+                .HasForeignKey(r => r.GameId)
                 .WillCascadeOnDelete(false);   
         } 
     }

@@ -19,7 +19,7 @@ namespace EloWeb.Controllers
         // GET: Players
         public ActionResult Index()
         {
-            var leaderboard = _players.All().OrderByDescending(p => p.CurrentRating);
+            var leaderboard = _players.All().OrderByDescending(p => p.Name);
             if (!leaderboard.Any())
                 return Redirect("~/Players/NewLeague");
 

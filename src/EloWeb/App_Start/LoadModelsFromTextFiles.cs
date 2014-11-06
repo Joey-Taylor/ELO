@@ -41,10 +41,10 @@ namespace EloWeb
         }
 
         private static void SaveGames(IEnumerable<string> gameStrings)
-        {
-            var players = new Players(db);
+        {            
             var games = new Games(db);
             var ratings = new Ratings(db);
+            var players = new Players(db, ratings);
 
             foreach (var gameString in gameStrings)
             {
