@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using EloWeb.Models;
 using EloWeb.Services;
-using Ninject.Infrastructure.Language;
 
 namespace EloWeb.Controllers
 {
@@ -15,7 +13,7 @@ namespace EloWeb.Controllers
         }
         public ActionResult Index()
         {
-            var leaderboard = _players.LeaderBoard();
+            var leaderboard = _players.Active().ToList().OrderByDescending(p => p.CurrentRating);
             if (!leaderboard.Any())
                 return Redirect("~/Players/NewLeague");
 

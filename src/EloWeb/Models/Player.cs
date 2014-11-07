@@ -28,7 +28,7 @@ namespace EloWeb.Models
         {
             get
             {
-                return Ratings.First();                                    
+                return Ratings.OrderByDescending(r => r.TimeFrom).First();                                    
             } 
         }
 
@@ -99,6 +99,10 @@ namespace EloWeb.Models
             get { return Losses.GroupBy(game => game.Winner.Name); }
         }
 
+        public int GamesPlayed
+        {
+            get { return Wins.Count + Losses.Count; }
+        }
         public int WinRate
         {
             get
@@ -108,9 +112,8 @@ namespace EloWeb.Models
                     return 0;
                 }
 
-                var total = Wins.Count + Losses.Count;
-                if (total == 0) return 0;
-                return (int) Math.Round((decimal) Wins.Count/total*100);
+                if (GamesPlayed == 0) return 0;
+                return (int) Math.Round((decimal) Wins.Count/GamesPlayed*100);
             }
 
         }

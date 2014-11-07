@@ -30,7 +30,7 @@
             <td>@Html.ActionLink(item.Name, "Details", "Players", new { name = item.Name }, null)</td>
             <td>@Html.DisplayFor(modelItem => item.CurrentRating)</td>
             <td>@Html.DisplayFor(modelItem => item.LatestRatingChange)</td>
-            <td></td>
+            <td>@Html.DisplayFor(modelItem => item.Wins.Count)</td>
             <td>@Html.DisplayFor(modelItem => item.WinRate)%</td>
             <td>@Html.DisplayFor(modelItem => item.CurrentRating.TimeFrom, "CustomDateTime")</td>
         </tr>

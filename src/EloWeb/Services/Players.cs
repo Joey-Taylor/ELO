@@ -57,15 +57,5 @@ namespace EloWeb.Services
                 .Include("Ratings")
                 .Single(p => p.Name == name);
         }
-
-        public IEnumerable<Player> LeaderBoard()
-        {
-            return _db.Players
-                .Include("Ratings")
-                .Include("Wins")
-                .Include("Losses")
-                .Where(p => p.IsActive && p.Ratings.Any())
-                ;
-        }
     }
 }
