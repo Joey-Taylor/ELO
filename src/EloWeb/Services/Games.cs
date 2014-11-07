@@ -29,11 +29,6 @@ namespace EloWeb.Services
             return _db.Games.OrderByDescending(g => g.Date).Take(howMany).ToList();
         }
 
-        public IEnumerable<Game> ByPlayer(Player player)
-        {
-            return _db.Games.Where(g => g.Winner == player || g.Loser == player).ToList();
-        }
-
         public IEnumerable<Game> WinsByPlayer(string name)
         {
             return _db.Games.Where(g => g.Winner.Name == name).ToList();

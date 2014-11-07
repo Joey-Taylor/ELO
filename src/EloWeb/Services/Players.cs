@@ -45,15 +45,27 @@ namespace EloWeb.Services
             return _db.Players.Select(p => p.Name);
         }
 
+        public Player PlayerById(long id)
+        {
+            return _db.Players
+                .Include("Wins")
+                .Include("Wins.Loser")
+                .Include("Losses")
+                .Include("Losses.Winner")
+                .Include("Ratings") 
+                .SingleOrDefault(p => p.ID == id);
+        }
+    
         public Player PlayerByName(string name)
         {
             return _db.Players
-                .Include("Wins") 
+                .Include("Wins")
                 .Include("Wins.Loser")
                 .Include("Losses")
                 .Include("Losses.Winner")
                 .Include("Ratings")
-                .Single(p => p.Name == name);
+                .SingleOrDefault(p => p.Name == name);
+               
         }
     }
 }

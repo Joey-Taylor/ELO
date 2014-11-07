@@ -25,7 +25,7 @@ namespace EloWeb.Services
             var loser = game.Loser;
 
             int pointsExchanged = EloCalc.PointsExchanged(winner.CurrentRating.Value, loser.CurrentRating.Value);
-            db.Ratings.Add(
+            winner.Ratings.Add(
                 new Rating
                 {
                     PlayerId = winner.ID, 
@@ -33,7 +33,7 @@ namespace EloWeb.Services
                     TimeFrom = game.Date, 
                     GameId = game.ID
                 });
-            db.Ratings.Add(
+            loser.Ratings.Add(
                 new Rating
                 {
                     PlayerId = loser.ID, 

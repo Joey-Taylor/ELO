@@ -3,5 +3,5 @@ using EloWeb.Models;
 
 namespace EloWeb
 {
-    public class PoolLadderDbInitializer: DropCreateDatabaseAlways<PoolLadderContext> { }
+    public class PoolLadderDbInitializer: CreateDatabaseIfNotExists<PoolLadderContext> { }
 }

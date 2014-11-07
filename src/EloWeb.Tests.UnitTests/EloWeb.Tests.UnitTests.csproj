@@ -60,9 +60,9 @@
   <ItemGroup>
     <Compile Include="GamesTests.cs" />
     <Compile Include="EloCalcTests.cs" />
-    <Compile Include="PlayerTests.cs" />
     <Compile Include="PlayersTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RatingsTests.cs" />
     <Compile Include="ServiceTestBase.cs" />
     <Compile Include="RatingTests.cs" />
   </ItemGroup>

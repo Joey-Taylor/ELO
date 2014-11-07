@@ -21,7 +21,7 @@ namespace EloWeb
 
         public static void Load(string path)
         {
-            if (Directory.Exists(path))
+            if (Directory.Exists(path) && !db.Database.Exists())
             {
                 try
                 {
