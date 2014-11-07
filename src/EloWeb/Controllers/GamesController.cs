@@ -66,8 +66,8 @@ namespace EloWeb.Controllers
             {                         
                 var winner = _players.Get(gameOutcome.WinnerId);
                 var loser = _players.Get(gameOutcome.LoserId);
-                _games.Add(new Game(winner, loser));
-                _ratings.UpdateRatings(winner, loser);
+                var game = _games.Add(new Game(winner, loser));
+                _ratings.UpdatePlayerRatings(game);
             }
 
             return Redirect("~/");

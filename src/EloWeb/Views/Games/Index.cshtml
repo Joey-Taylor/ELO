@@ -22,9 +22,7 @@
     @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.ActionLink(item.Winner.Name, "Details", "Players", new { name = item.Winner.Name }, null)
-                beat 
-                @Html.ActionLink(item.Loser.Name, "Details", "Players", new { name = item.Loser.Name }, null)
+                @Html.DisplayFor(x => item)
             </td>
         </tr>
     }

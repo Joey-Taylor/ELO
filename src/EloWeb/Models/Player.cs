@@ -125,7 +125,8 @@ namespace EloWeb.Models
             {
                 if (Ratings.Count < 2) 
                     return 0; 
-                return Ratings.First().Value - Ratings.Skip(1).Take(1).First().Value;
+                var sortedRatings = Ratings.OrderByDescending(r => r.TimeFrom);
+                return sortedRatings.First().Value - sortedRatings.Skip(1).Take(1).First().Value;
             }
         }          
     }

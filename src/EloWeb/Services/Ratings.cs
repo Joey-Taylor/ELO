@@ -4,31 +4,43 @@ using EloWeb.Models;
 namespace EloWeb.Services
 {
     public class Ratings
-    {
-        public const int InitialRating = 1000;
+    {        
         private PoolLadderContext db;
         public Ratings(PoolLadderContext poolLadderContext)
         {
             db = poolLadderContext;
         }
 
-        public void AddRating(Player player, int ratingPoints, DateTime appliesFrom)
-        {
-            var rating = new Rating {PlayerId = player.ID, Value = ratingPoints, TimeFrom = appliesFrom};
+        public void AddRating(Rating rating)
+        {            
             db.Ratings.Add(rating);
             db.SaveChanges();
         }
 
-        public void GivePoints(int pointsExchanged, Player winner, Player loser)
+        public void UpdatePlayerRatings(Game game)
         {
-            AddRating(winner, winner.CurrentRating.Value + pointsExchanged, DateTime.Now);
-            AddRating(loser, loser.CurrentRating.Value - pointsExchanged, DateTime.Now);
-       }
+            var winner = game.Winner;
+            var loser = game.Loser;
 
-        public void UpdateRatings(Player winner, Player loser)
-        {
             int pointsExchanged = EloCalc.PointsExchanged(winner.CurrentRating.Value, loser.CurrentRating.Value);
-            GivePoints(pointsExchanged, winner, loser);            
+            db.Ratings.Add(
+                new Rating
+                {
+                    PlayerId = winner.ID, 
+                    Value = winner.CurrentRating.Value + pointsExchanged, 
+                    TimeFrom = game.Date, 
+                    GameId = game.ID
+                });
+            db.Ratings.Add(
+                new Rating
+                {
+                    PlayerId = loser.ID, 
+                    Value = loser.CurrentRating.Value - pointsExchanged, 
+                    TimeFrom = game.Date, 
+                    GameId = game.ID
+                });
+
+            db.SaveChanges();
         }
     }
 }

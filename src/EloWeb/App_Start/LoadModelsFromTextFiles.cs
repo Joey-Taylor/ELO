@@ -16,7 +16,7 @@ namespace EloWeb
         private static readonly Players Players = new Players(db, Ratings);
 
         private const string BEAT = "beat";
-        private const string AT = "at";
+        private const string AT = "<at>";
 
         public static void Load(string path)
         {
@@ -40,7 +40,16 @@ namespace EloWeb
                 if (!addedNames.Contains(name) && !dbNames.Contains(name))
                 {
                     var player = new Player(name);
-                    Players.Add(player);
+                    db.Players.Add(player);
+                    db.SaveChanges();
+                    Ratings.AddRating(
+                        new Rating
+                        {
+                            PlayerId = player.ID,
+                            TimeFrom = DateTime.Parse("2014-11-05T12:22:17.6334974Z"),
+                            Value = Rating.InitialRating
+                        }
+                    );
                     addedNames.Add(name);
                 }
             }
@@ -51,8 +60,8 @@ namespace EloWeb
         {                       
             foreach (var gameString in gameStrings)
             {
-                var game = Games.Add(Deserialize(gameString));
-                Ratings.UpdateRatings(game.Winner, game.Loser);
+                var game = Games.Add(Deserialize(gameString));                
+                Ratings.UpdatePlayerRatings(game);
             }
         }
 

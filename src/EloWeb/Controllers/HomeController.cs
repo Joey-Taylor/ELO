@@ -13,7 +13,7 @@ namespace EloWeb.Controllers
         }
         public ActionResult Index()
         {
-            var leaderboard = _players.Active().ToList().OrderByDescending(p => p.CurrentRating);
+            var leaderboard = _players.Active().Where(p => p.GamesPlayed > 0).ToList().OrderByDescending(p => p.CurrentRating);
             if (!leaderboard.Any())
                 return Redirect("~/Players/NewLeague");
 

@@ -20,7 +20,14 @@ namespace EloWeb.Services
         {
             _db.Players.Add(player);
             _db.SaveChanges();
-            _ratings.AddRating(player, Ratings.InitialRating, DateTime.Now);            
+            _ratings.AddRating(
+                new Rating
+                {
+                    PlayerId = player.ID,
+                    TimeFrom = DateTime.Now,
+                    Value = Rating.InitialRating
+                }
+            );
         }
 
         public Player Get(long id)
