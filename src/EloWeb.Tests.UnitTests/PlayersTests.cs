@@ -8,34 +8,37 @@ namespace EloWeb.Tests.UnitTests
 {
     class PlayersTests : ServiceTestsBase
     {
-        private Players players;
+        private Players _players;
 
-        [TestFixtureSetUp]
+        [TestFixtureSetUp]        
         public void TestSetup()
         {
-             players = Kernel.Get<Players>();
 
-            // TODO
-            // The order of these matters
-//            InitialiseTestGames();
-//            InitialiseTestPlayers();
+            _players = new Players(_db);
         }
 
-        [Test]
-        public void CanParsePlayerDescriptionText()
-        {   
-            
-        }
 
         [Test]
         public void CanGetPlayerTotalGamesWon() { }
-        
+
+        [Test]
+        public void NewPlayersHaveAnInitialRating()
+        {
+            var frank = new Player("Frank");
+            _players.Add(frank);
+            Assert.That(frank.CurrentRating, Is.EqualTo(Rating.InitialRating));
+        }
+
         [Test]
         public void CanGetAPlayerByName()
         {
-            var player = players.PlayerByName("Richard");
+            var richard = new Player("Richard");
+            _db.Players.Add(richard);
+            _db.SaveChanges();
 
-            Assert.AreEqual("Richard", player.Name);
+            var player = _db.Players.Any();
+
+            Assert.True(player);
         }
 
         [Test]

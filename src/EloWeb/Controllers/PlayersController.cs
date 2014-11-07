@@ -11,10 +11,12 @@ namespace EloWeb.Controllers
     public class PlayersController : Controller
     {
         private readonly Players _players;
+        private readonly Ratings _ratings;
 
-        public PlayersController(Players players)
+        public PlayersController(Players players, Ratings ratings)
         {
             _players = players;
+            _ratings = ratings;
         }
 
         // GET: Players
@@ -72,9 +74,10 @@ namespace EloWeb.Controllers
 
         // POST: Players/Create
         [HttpPost]
-        public ActionResult Create(CreatePlayerViewModel player)
+        public ActionResult Create(CreatePlayerViewModel newPlayer)
         {
-            _players.Add(new Player(player.Name));       
+            var player = _players.Add(new Player(newPlayer.Name));
+            _ratings.AddInitialRating(player);
             return Redirect("~/Players");
         }
     }

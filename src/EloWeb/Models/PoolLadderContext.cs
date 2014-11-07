@@ -1,10 +1,14 @@
-﻿using System.Data.Entity;
+﻿using System.Data.Common;
+using System.Data.Entity;
 
 namespace EloWeb.Models
 {
     public class PoolLadderContext : DbContext
     {
         public PoolLadderContext() : base("PoolLadderDatabase") { }
+
+        public PoolLadderContext(DbConnection connection) : base(connection, true) { }        
+
         public DbSet<Player> Players { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<Rating> Ratings { get; set; }

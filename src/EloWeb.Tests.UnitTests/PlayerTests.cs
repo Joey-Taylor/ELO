@@ -5,22 +5,8 @@ using NUnit.Framework;
 
 namespace EloWeb.Tests.UnitTests
 {
-    class PlayerTests : ServiceTestsBase
+    class PlayerTests
     {
-        [Test]
-        public void NewPlayersHaveAnInitialRating()
-        {
-            var frank = new Player("Frank");
-            
-            Assert.That(frank.CurrentRating, Is.EqualTo(Player.InitialRating));
-        }
-
-        [Test]
-        public void RatingPointsAreExchanged()
-        {
-
-        }
-
         [Test]
         public void CanGetPlayerTotalGamesWon()
         {

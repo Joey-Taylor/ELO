@@ -6,6 +6,8 @@ namespace EloWeb.Services
     public class Ratings
     {        
         private PoolLadderContext db;
+        
+
         public Ratings(PoolLadderContext poolLadderContext)
         {
             db = poolLadderContext;
@@ -41,6 +43,19 @@ namespace EloWeb.Services
                 });
 
             db.SaveChanges();
+        }
+
+        public Rating AddInitialRating(Player player)
+        {
+            var rating = new Rating
+            {
+                PlayerId = player.ID,
+                Value = Rating.InitialRating,
+                TimeFrom = player.CreatedTime
+            };
+            db.Ratings.Add(rating);
+            db.SaveChanges();
+            return rating;
         }
     }
 }

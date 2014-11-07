@@ -8,26 +8,17 @@ namespace EloWeb.Services
     public class Players
     {
         private readonly PoolLadderContext _db;
-        private readonly Ratings _ratings;
 
-        public Players(PoolLadderContext context, Ratings ratings)
+        public Players(PoolLadderContext context)
         {
             _db = context;
-            _ratings = ratings;
         }
 
-        public void Add(Player player)
+        public Player Add(Player player)
         {
             _db.Players.Add(player);
             _db.SaveChanges();
-            _ratings.AddRating(
-                new Rating
-                {
-                    PlayerId = player.ID,
-                    TimeFrom = DateTime.Now,
-                    Value = Rating.InitialRating
-                }
-            );
+            return player;
         }
 
         public Player Get(long id)

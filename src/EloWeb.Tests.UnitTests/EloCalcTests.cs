@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using EloWeb.Models;
+﻿using EloWeb.Models;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace EloWeb.Tests.UnitTests
 {

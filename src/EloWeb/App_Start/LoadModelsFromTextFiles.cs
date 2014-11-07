@@ -13,10 +13,11 @@ namespace EloWeb
         private static readonly PoolLadderContext db = new PoolLadderContext();
         private static readonly Games Games = new Games(db);
         private static readonly Ratings Ratings = new Ratings(db);
-        private static readonly Players Players = new Players(db, Ratings);
+        private static readonly Players Players = new Players(db);
 
-        private const string BEAT = "beat";
-        private const string AT = "<at>";
+        private const string Beat = "beat";
+        private const string At = "<at>";
+        private const string CreatedAt = "<Created At>";
 
         public static void Load(string path)
         {
@@ -31,43 +32,58 @@ namespace EloWeb
             }            
         }
 
-        private static void SavePlayers(IEnumerable<string> names)
+        private static void SavePlayers(IEnumerable<string> playerStrings)
         {
             var dbNames = db.Players.Select(p => p.Name).ToList();
             var addedNames = new HashSet<string>();
-            foreach (var name in names)
+            foreach (var playerString in playerStrings)
             {
-                if (!addedNames.Contains(name) && !dbNames.Contains(name))
+                if (!addedNames.Contains(playerString) && !dbNames.Contains(playerString))
                 {
-                    var player = new Player(name);
+                    var player = DeserializePlayer(playerString);
                     db.Players.Add(player);
                     db.SaveChanges();
                     Ratings.AddRating(
                         new Rating
                         {
                             PlayerId = player.ID,
-                            TimeFrom = DateTime.Parse("2014-11-05T12:22:17.6334974Z"),
+                            TimeFrom = player.CreatedTime,
                             Value = Rating.InitialRating
                         }
                     );
-                    addedNames.Add(name);
+                    addedNames.Add(playerString);
                 }
             }
             db.SaveChanges();
+        }
+
+        public static Player DeserializePlayer(string playerString)
+        {
+            var splitOn = new[] { CreatedAt };
+            var splitString = playerString.Split(splitOn, StringSplitOptions.None);
+            var name = splitString[0].Trim();
+            var createdTime = DateTime.Parse(splitString[1].Trim());
+
+            return new Player
+            {
+                Name = name,
+                CreatedTime = createdTime,
+                IsActive = true                
+            };
         }
 
         private static void SaveGames(IEnumerable<string> gameStrings)
         {                       
             foreach (var gameString in gameStrings)
             {
-                var game = Games.Add(Deserialize(gameString));                
+                var game = Games.Add(DeserializeGame(gameString));                
                 Ratings.UpdatePlayerRatings(game);
             }
         }
 
-        private static Game Deserialize(string game)
+        private static Game DeserializeGame(string game)
         {
-            var splitOn = new[] { BEAT, AT };
+            var splitOn = new[] { Beat, At };
             var splitString = game.Split(splitOn, StringSplitOptions.None);
             var winner = Players.PlayerByName(splitString[0].Trim());
             var loser = Players.PlayerByName(splitString[1].Trim());          
