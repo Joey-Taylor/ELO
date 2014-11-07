@@ -10,13 +10,18 @@ namespace EloWeb.Models
     {
         private readonly LinkedList<Rating> _ratings = new LinkedList<Rating>();
         public const int InitialRating = 1000;
+        private const string CreatedAt = "<Created At>";
 
-        public static Player CreateInitial(string name)
+        public Player(string name, DateTime createdTime)
         {
-            var player = new Player { Name = name };
-            player.AddRating(InitialRating, DateTime.UtcNow);
-            return player;
+            Name = name;
+            CreatedTime = createdTime;
+            AddRating(InitialRating, CreatedTime);
         }
+
+        public Player(string name) : this (name, DateTime.UtcNow) { }
+
+        public DateTime CreatedTime { get; set; }
 
         public string Name { get; set; }
 
@@ -24,6 +29,11 @@ namespace EloWeb.Models
         {
             get { return _ratings.First(); }
         }
+
+        public IEnumerable<Rating> Ratings
+        {
+            get { return _ratings; }
+        } 
 
         public Rating MaxRating
         {
@@ -131,6 +141,42 @@ namespace EloWeb.Models
         public void DecreaseRating(int points, DateTime when)
         {
             AddRating(Rating.Value - points, when);
+        }
+
+        protected bool Equals(Player other)
+        {
+            return CreatedTime.Equals(other.CreatedTime) && string.Equals(Name, other.Name);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Player) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (CreatedTime.GetHashCode()*397) ^ (Name != null ? Name.GetHashCode() : 0);
+            }
+        }
+
+        public string Serialize()
+        {
+            return string.Format("{0} {1} {2:O}", Name, CreatedAt, CreatedTime);
+        }
+
+        public static Player Deserialize(string playerString)
+        {
+            var splitOn = new[] { CreatedAt };
+            var splitString = playerString.Split(splitOn, StringSplitOptions.None);
+            var name = splitString[0].Trim();
+            var createdTime = DateTime.Parse(splitString[1].Trim());
+
+            return new Player(name, createdTime);
         }
     }
 }

@@ -27,12 +27,8 @@ namespace EloWeb.Tests.UnitTests
                 new Game {Winner = "A", Loser = "C"},
                 new Game {Winner = "B", Loser = "C"},
             };
-            
-            Games.Initialise(new List<String>());
-            foreach (var game in games)
-            {
-                Games.Add(game);
-            }
+
+            Games.Initialise(games);
 
             Assert.AreEqual(games, Games.All);
         }
@@ -44,10 +40,7 @@ namespace EloWeb.Tests.UnitTests
             var game2 = new Game {Winner = "A", Loser = "C"};
             var game3 = new Game {Winner = "B", Loser = "C"};
 
-            Games.Initialise(new String[0]);
-            Games.Add(game1);
-            Games.Add(game2);
-            Games.Add(game3);
+            Games.Initialise(new[] {game1, game2, game3});
 
             var expected = new List<Game>
             {
@@ -65,10 +58,7 @@ namespace EloWeb.Tests.UnitTests
             var game2 = new Game { Winner = "A", Loser = "C" };
             var game3 = new Game { Winner = "B", Loser = "C" };
 
-            Games.Initialise(new String[0]);
-            Games.Add(game1);
-            Games.Add(game2);
-            Games.Add(game3);
+            Games.Initialise(new[] { game1, game2, game3 });
 
             var expected = new List<Game>
             {
@@ -76,7 +66,7 @@ namespace EloWeb.Tests.UnitTests
                 game3
             };
 
-            var player = new Player {Name = "C"};
+            var player = new Player("C");
 
             Assert.AreEqual(expected, Games.ByPlayer(player));
         }

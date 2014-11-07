@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using EloWeb.Models;
 using EloWeb.Persist;
@@ -67,8 +68,9 @@ namespace EloWeb.Controllers
         [HttpPost]
         public ActionResult Create(CreatePlayerViewModel player)
         {
-            Players.Add(Player.CreateInitial(player.Name)); 
-            PlayersData.PersistPlayer(player.Name);         
+            var newPlayer = new Player(player.Name);
+            Players.Add(newPlayer);
+            PlayersData.PersistPlayer(newPlayer);         
             return Redirect("~/Players");
         }
     }

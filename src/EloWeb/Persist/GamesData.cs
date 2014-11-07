@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using EloWeb.Models;
 
 namespace EloWeb.Persist
 {
@@ -8,22 +9,22 @@ namespace EloWeb.Persist
     {
         private static string _path;
         
-        public static IEnumerable<string> Load(string path)
+        public static IEnumerable<Game> Load(string path)
         {
             try
             {
                 _path = path;
-                return File.ReadLines(_path);
+                return File.ReadLines(_path).Select(Game.Deserialize);
             }
             catch (FileNotFoundException)
             {
-                return new List<string>().AsEnumerable();
+                return new Game[0];
             }
         }
 
-        public static void PersistGame(string game)
+        public static void PersistGame(Game game)
         {
-            File.AppendAllText(_path, game + "\n");
+            File.AppendAllText(_path, game.Serialize() + "\n");
         }
     }
 }

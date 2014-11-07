@@ -13,9 +13,9 @@ namespace EloWeb.Models
 
         private static List<Game> _games = new List<Game>();
 
-        public static void Initialise(IEnumerable<string> games)
+        public static void Initialise(IEnumerable<Game> games)
         {
-            _games = games.Select(Game.Deserialize).ToList();
+            _games = games.ToList();
         }
 
         public static void Add(Game game)

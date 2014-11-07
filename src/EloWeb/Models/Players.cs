@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EloWeb.Utils;
 using WebGrease.Css.Extensions;
 
 namespace EloWeb.Models
@@ -8,9 +9,9 @@ namespace EloWeb.Models
     {
         private static Dictionary<string, Player> _players = new Dictionary<string, Player>();
 
-        public static void Initialise(IEnumerable<string> names)
+        public static void Initialise(IEnumerable<Player> players)
         {
-            _players = names.Select(Player.CreateInitial).ToDictionary(p => p.Name);
+           _players = players.ToDictionary(p => p.Name);
            Games.All.ForEach(UpdateRatings);
         }
 
@@ -47,10 +48,7 @@ namespace EloWeb.Models
 
         public static Player PlayerByName(string name)
         {
-            if (!_players.ContainsKey(name))
-                return new Player();
-
-            return _players[name];
+            return _players.GetOrDefault(name);
         }
     }
 }

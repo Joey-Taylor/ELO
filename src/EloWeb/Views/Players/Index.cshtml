@@ -19,7 +19,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Rating)
         </th>
-        <th></th>
+        <th>
+            Created
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -29,6 +31,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Rating)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedTime, "CustomDate")
         </td>
     </tr>
 }

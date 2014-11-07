@@ -2,7 +2,6 @@
 using System.Linq;
 using EloWeb.Models;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace EloWeb.Tests.UnitTests
 {
@@ -14,6 +13,16 @@ namespace EloWeb.Tests.UnitTests
             // The order of these matters
             InitialiseTestGames();
             InitialiseTestPlayers();
+        }
+
+        [Test]
+        public void CanPersistAndRetrievePlayer()
+        {
+            var player = new Player("Test", DateTime.UtcNow);
+            var playerString = player.Serialize();
+            var deserializedPlayer = Player.Deserialize(playerString);
+
+            Assert.AreEqual(player, deserializedPlayer);
         }
 
         [Test]
@@ -102,12 +111,16 @@ namespace EloWeb.Tests.UnitTests
 
         private void InitialiseTestPlayers()
         {
-            Players.Initialise(new List<String> { "Peter", "Frank", "Richard", "Bob" });
+            var peter = new Player("Peter", DateTime.MinValue);
+            var frank = new Player("Frank", DateTime.MinValue);
+            var richard = new Player("Richard", DateTime.MinValue);
+            var bob = new Player("Bob", DateTime.MinValue);
+
+            Players.Initialise(new[] {peter, frank, richard, bob});
         }
 
         private void InitialiseTestGames()
         {
-            Games.Initialise(new String[0]);
             var games = new Game[]
             {
                 new Game {Winner = "Peter", Loser = "Frank"},
@@ -131,10 +144,7 @@ namespace EloWeb.Tests.UnitTests
                 new Game {Winner = "Bob", Loser = "Richard"}
             };
 
-            foreach (var game in games)
-            {
-                Games.Add(game);
-            }
+            Games.Initialise(games);
         }
     }
 }
