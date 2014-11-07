@@ -2,14 +2,26 @@
 using System.Web.Helpers;
 using System.Web.Mvc;
 using EloWeb.Models;
+using EloWeb.Services;
 
 namespace EloWeb.Controllers
 {
     public class GraphsController : Controller
     {
+
+        private readonly Players _players;
+        private readonly Ratings _ratings;
+
+        public GraphsController(Players players, Ratings ratings)
+        {
+            _players = players;
+            _ratings = ratings;
+        }
+
+
         public ActionResult PlayerEloByGames(string playerName, int? width, int? height)
         {
-            var player = Players.PlayerByName(playerName);
+            var player = _players.PlayerByName(playerName);
 
             var ratings = player.Ratings.OrderBy(r => r.TimeFrom);
 
@@ -32,7 +44,7 @@ namespace EloWeb.Controllers
 
         public ActionResult PlayerEloByTime(string playerName, int? width, int? height)
         {
-            var player = Players.PlayerByName(playerName);
+            var player = _players.PlayerByName(playerName);
 
             var ratings = player.Ratings.OrderBy(r => r.TimeFrom);
 
