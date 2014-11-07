@@ -39,3 +39,9 @@ ol ol {
 ol ol ol {
     list-style-type: lower-roman;
 }
+
+.centredImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

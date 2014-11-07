@@ -60,7 +60,7 @@
             <th>
                 Most Consecutive Wins
             </th>
-       </tr>
+        </tr>
         <tr>
             <td>
                 @Model.RecentForm
@@ -76,6 +76,16 @@
             </td>
         </tr>        
     </table>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <img class="centredImage" src="@Url.Action("PlayerEloByGames", "Graphs", new { playerName = Model.Name })" />
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <img class="centredImage" src="@Url.Action("PlayerEloByTime", "Graphs", new { playerName = Model.Name })" />
+    </div>
 </div>
 
 <hr/>
