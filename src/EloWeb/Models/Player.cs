@@ -11,6 +11,7 @@ namespace EloWeb.Models
         public long ID { get; set; }
         public string Name { get; set; }        
         public bool IsActive { get; set; }
+        private const string CreatedAt = "<Created At>";
 
         public virtual ICollection<Game> Wins { get; set; }
         public virtual ICollection<Game> Losses { get; set; }
@@ -31,6 +32,11 @@ namespace EloWeb.Models
                 return Ratings.OrderByDescending(r => r.TimeFrom).First();                                    
             } 
         }
+
+        public IEnumerable<Rating> Ratings
+        {
+            get { return _ratings; }
+        } 
 
         public Rating MaxRating
         {
@@ -129,5 +135,41 @@ namespace EloWeb.Models
                 return sortedRatings.First().Value - sortedRatings.Skip(1).Take(1).First().Value;
             }
         }          
+
+        protected bool Equals(Player other)
+        {
+            return CreatedTime.Equals(other.CreatedTime) && string.Equals(Name, other.Name);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Player) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (CreatedTime.GetHashCode()*397) ^ (Name != null ? Name.GetHashCode() : 0);
+            }
+        }
+
+        public string Serialize()
+        {
+            return string.Format("{0} {1} {2:O}", Name, CreatedAt, CreatedTime);
+        }
+
+        public static Player Deserialize(string playerString)
+        {
+            var splitOn = new[] { CreatedAt };
+            var splitString = playerString.Split(splitOn, StringSplitOptions.None);
+            var name = splitString[0].Trim();
+            var createdTime = DateTime.Parse(splitString[1].Trim());
+
+            return new Player(name, createdTime);
+        }
     }
 }

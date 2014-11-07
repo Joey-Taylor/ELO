@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace EloWeb.Models
 {
     public class Game
+        private const string AT = "<at>";
     {        
         public long ID { get; set; }
         public long WinnerId { get; set; }           
