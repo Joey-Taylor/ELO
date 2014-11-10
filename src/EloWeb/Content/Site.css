@@ -45,3 +45,12 @@ ol ol ol {
     margin-left: auto;
     margin-right: auto;
 }
+
+.checkBoxListItem {
+    float: left;
+    width: 120px;
+}
+
+.top-buffer {
+    margin-top: 15px;
+}

@@ -1,0 +1,5 @@
+﻿@model EloWeb.Models.CheckBoxViewModel
+<div class ="col-md-2">
+    @Html.CheckBoxFor(x => Model.Checked) @Html.LabelFor(x => Model.Checked, Model.Text)
+    @Html.HiddenFor(x => Model.Text)
+</div>
