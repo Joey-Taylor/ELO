@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using EloWeb.Models;
+using EloWeb.Services;
 
 namespace EloWeb.Controllers
 {
@@ -11,10 +12,16 @@ namespace EloWeb.Controllers
     {
         private const int DefaultWidth = 500;
         private const int DefaultHeight = 400;
+        private readonly Players _players;
+
+        public GraphGeneratorController(Players players)
+        {
+            _players = players;
+        }
 
         public ActionResult SelectedEloByGames(string[] playerNames, int? width, int? height, bool? title)
         {
-            var players = Players.All().Where(p => playerNames.Contains(p.Name));
+            var players = _players.All().Where(p => playerNames.Contains(p.Name));
             var chart = GenerateGameChart(players, width, height, title);
             chart.AddLegend();
             chart.Write("png");
@@ -24,7 +31,7 @@ namespace EloWeb.Controllers
 
         public ActionResult SelectedEloByTime(string[] playerNames, int? width, int? height, bool? title)
         {
-            var players = Players.All().Where(p => playerNames.Contains(p.Name));
+            var players = _players.All().Where(p => playerNames.Contains(p.Name));
             var chart = GenerateDateChart(players, width, height, title);
             chart.AddLegend();
             chart.Write("png");
@@ -34,7 +41,7 @@ namespace EloWeb.Controllers
 
         public ActionResult PlayerEloByGames(string playerName, int? width, int? height, bool? title)
         {
-            var players = new[] { Players.PlayerByName(playerName) };
+            var players = new[] { _players.PlayerByName(playerName) };
             var chart = GenerateGameChart(players, width, height, title);
             chart.Write("png");
 
@@ -43,7 +50,7 @@ namespace EloWeb.Controllers
 
         public ActionResult PlayerEloByTime(string playerName, int? width, int? height, bool? title)
         {
-            var players = new[] {Players.PlayerByName(playerName)};
+            var players = new[] {_players.PlayerByName(playerName)};
             var chart = GenerateDateChart(players, width, height, title);
             chart.Write("png");
 

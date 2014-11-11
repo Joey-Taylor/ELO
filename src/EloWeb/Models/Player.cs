@@ -7,116 +7,117 @@ using EloWeb.Utils;
 namespace EloWeb.Models
 {
     public class Player
-    {
-        private readonly LinkedList<Rating> _ratings = new LinkedList<Rating>();
-        public const int InitialRating = 1000;
+    {        
+        public long ID { get; set; }
+        public string Name { get; set; }        
+        public bool IsActive { get; set; }
+        public DateTime CreatedTime { get; set; }
         private const string CreatedAt = "<Created At>";
 
-        public Player(string name, DateTime createdTime)
+        public virtual ICollection<Game> Wins { get; set; }
+        public virtual ICollection<Game> Losses { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
+        public IEnumerable<Game> Games { get { return Wins.Union(Losses).OrderByDescending(g => g.Date); } }
+
+        public Player() { }
+        public Player(string name)
         {
-            Name = name;
-            CreatedTime = createdTime;
-            AddRating(InitialRating, CreatedTime);
+            Name = name;            
+            IsActive = true;                  
         }
 
-        public Player(string name) : this (name, DateTime.UtcNow) { }
-
-        public DateTime CreatedTime { get; set; }
-
-        public string Name { get; set; }
-
-        public Rating Rating
+        public Rating CurrentRating
         {
-            get { return _ratings.First(); }
+            get
+            {
+                return Ratings.OrderByDescending(r => r.TimeFrom).First();                                    
+            } 
         }
-
-        public IEnumerable<Rating> Ratings
-        {
-            get { return _ratings; }
-        } 
 
         public Rating MaxRating
         {
-            get { return _ratings.Max(); }
+            get { return Ratings.Max(); }
+            
         }
-
+    
         public Rating MinRating
         {
-            get { return _ratings.Min(); }
+            get { return Ratings.Min(); }
         }
 
-        public string RecentForm
+        public IEnumerable<Game> RecentGames(int n)
         {
-            get { return WinsAndLossesString.Last(5); }
+            return Games.Take(n);
         }
-
+       
         public int LongestWinningStreak
         {
-            get { return Results.LengthOfLongestSequence(r => r == Result.Win); }
+            get { return Games.LengthOfLongestSequence(g => g.WinnerId == ID); }
         }
-
         public int CurrentWinningStreak
         {
-            get { return Results.Reverse().TakeWhile(r => r == Result.Win).Count(); }
-        }
+            get
+            {
+                if (Losses.IsNullOrEmpty())
+                {
+                    if (Wins.IsNullOrEmpty())
+                    {
+                        return 0;
+                    }
+                    return Wins.Count;
+                }
 
+                var lastLoss = Losses.OrderByDescending(l => l.Date).First();
+                var winCount = Wins.OrderByDescending(w => w.Date).TakeWhile(w => w.Date > lastLoss.Date).Count();
+                return winCount;
+            }
+        }
         public int LongestLosingStreak
         {
-            get { return Results.LengthOfLongestSequence(r => r == Result.Loss); }
+            get { return Games.LengthOfLongestSequence(g => g.LoserId == ID); }
         }
-
         public int CurrentLosingStreak
         {
-            get { return Results.Reverse().TakeWhile(r => r == Result.Loss).Count(); }
+            get
+            {
+                if (Wins.IsNullOrEmpty())
+                {
+                    return Losses.Count;
+                }
+
+                var lastWin = Wins.OrderByDescending(l => l.Date).First();
+                var lossCount = Losses.OrderByDescending(w => w.Date).TakeWhile(w => w.Date > lastWin.Date).Count();
+                return lossCount;
+            }
         }
 
         public IEnumerable<IGrouping<String, Game>> WinsByOpponent
         {
-            get { return GamesWon.GroupBy(game => game.Loser); }
+            get { return Wins.GroupBy(game => game.Loser.Name); }            
         }
 
         public IEnumerable<IGrouping<String, Game>> LossesByOpponent
         {
-            get { return GamesLost.GroupBy(game => game.Winner); }
-        }
-
-        public IEnumerable<Game> GamesWon
-        {
-            get { return Games.WinsByPlayer(Name); }
-        }
-
-        public  IEnumerable<Game> GamesLost
-        {
-            get { return Games.LossesByPlayer(Name); }
+            get { return Losses.GroupBy(game => game.Winner.Name); }
         }
 
         public int GamesPlayed
         {
-            get { return Games.ByPlayer(this).Count(); }
+            get { return Wins.Count + Losses.Count; }
         }
-
-        private IEnumerable<Result> Results
-        {
-            get { return Games.ByPlayer(this).Select(g => g.Winner == Name ? Result.Win : Result.Loss); }
-        } 
-
-        private string WinsAndLossesString
-        {
-            get { return Results.Select(r => r == Result.Win ? "W" : "L").Join(""); }
-        }
-
         public int WinRate
         {
             get
             {
-                var results = Results.ToList();
+                if (Wins == null || Wins.Count == 0)
+                {
+                    return 0;
+                }
 
-                var total = results.Count;
-                if (total == 0) return 0;
-
-                var wins = results.Count(r => r == Result.Win);
-                return (int)Math.Round((decimal)wins/total*100);   
+                if (GamesPlayed == 0) return 0;
+                return (int) Math.Round((decimal) Wins.Count/GamesPlayed*100);
             }
+
         }
 
         [DisplayFormat(DataFormatString = "{0:+#;-#;0}")]
@@ -124,24 +125,12 @@ namespace EloWeb.Models
         {
             get
             {
-                return _ratings.Count < 2 ? 0 : _ratings.First.Value.Value - _ratings.First.Next.Value.Value;
+                if (Ratings.Count < 2) 
+                    return 0; 
+                var sortedRatings = Ratings.OrderByDescending(r => r.TimeFrom);
+                return sortedRatings.First().Value - sortedRatings.Skip(1).Take(1).First().Value;
             }
-        }
-
-        public void AddRating(int rating, DateTime appliesFrom)
-        {
-            _ratings.AddFirst(new Rating{Value = rating, TimeFrom = appliesFrom});
-        }
-
-        public void IncreaseRating(int points, DateTime when)
-        {
-            AddRating(Rating.Value + points, when);
-        }
-
-        public void DecreaseRating(int points, DateTime when)
-        {
-            AddRating(Rating.Value - points, when);
-        }
+        }          
 
         protected bool Equals(Player other)
         {
@@ -162,21 +151,6 @@ namespace EloWeb.Models
             {
                 return (CreatedTime.GetHashCode()*397) ^ (Name != null ? Name.GetHashCode() : 0);
             }
-        }
-
-        public string Serialize()
-        {
-            return string.Format("{0} {1} {2:O}", Name, CreatedAt, CreatedTime);
-        }
-
-        public static Player Deserialize(string playerString)
-        {
-            var splitOn = new[] { CreatedAt };
-            var splitString = playerString.Split(splitOn, StringSplitOptions.None);
-            var name = splitString[0].Trim();
-            var createdTime = DateTime.Parse(splitString[1].Trim());
-
-            return new Player(name, createdTime);
-        }
+        }        
     }
 }

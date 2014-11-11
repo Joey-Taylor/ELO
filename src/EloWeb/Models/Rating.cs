@@ -5,10 +5,14 @@ namespace EloWeb.Models
     /// <summary>
     /// Represents a player's rating
     /// </summary>
-    public struct Rating : IComparable<Rating>, IComparable, IEquatable<Rating>
+    public class Rating : IComparable<Rating>, IComparable, IEquatable<Rating>
     {
+        public const int InitialRating = 1000;
+        public long ID { get; set; }
+        public long PlayerId { get; set; }
+        public long? GameId { get; set; }
         /// <summary>
-        /// The value of the rating.
+        /// The numeric value of the rating.
         /// </summary>
         public int Value { get; set; }
 
@@ -17,6 +21,10 @@ namespace EloWeb.Models
         /// Note: The time is in UTC so will need localising
         /// </summary>
         public DateTime TimeFrom { get; set; }
+
+        public virtual Player Player { get; set; }
+        public virtual Game Game { get; set; }
+ 
 
         public bool Equals(Rating other)
         {

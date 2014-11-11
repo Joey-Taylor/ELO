@@ -1,74 +1,36 @@
-﻿using System;
+﻿using System.Linq;
 using EloWeb.Models;
+using EloWeb.Services;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace EloWeb.Tests.UnitTests
 {
-    public class GamesTests
+    class GamesTests : ServiceTestsBase
     {
-        [Test]
-        public void CanPersistAndRetrieveAGame()
+        private Games _games;
+        private Players _players;
+
+        [TestFixtureSetUp]
+        public void TestSetup()
         {
-            var game = new Game {Winner = "A", Loser = "B"};
-
-            var gameString = game.Serialize();
-            var recreatedGame = Game.Deserialize(gameString);
-
-            Assert.AreEqual(game, recreatedGame);
+            _players = new Players(_db);
+            _games = new Games(_db);
         }
 
         [Test]
-        public void CanAddAGameToTheList()
+        public void CanPersistAGame()
         {
-            var games = new List<Game>
-            {
-                new Game {Winner = "A", Loser = "B"},
-                new Game {Winner = "A", Loser = "C"},
-                new Game {Winner = "B", Loser = "C"},
-            };
-
-            Games.Initialise(games);
-
-            Assert.AreEqual(games, Games.All);
+            var andy = _players.PlayerByName("Andy");
+            var matt = _players.PlayerByName("Matt");
+            var newGame = _games.Add(new Game(andy, matt));
+            Assert.NotNull(newGame.ID);
         }
 
         [Test]
         public void CanRetrieveNMostRecentGames()
         {
-            var game1 = new Game {Winner = "A", Loser = "B"};
-            var game2 = new Game {Winner = "A", Loser = "C"};
-            var game3 = new Game {Winner = "B", Loser = "C"};
-
-            Games.Initialise(new[] {game1, game2, game3});
-
-            var expected = new List<Game>
-            {
-                game2,
-                game3
-            };
-
-            Assert.AreEqual(expected, Games.MostRecent(2, Games.GamesSortOrder.MostRecentLast));
-        }
-
-        [Test]
-        public void CanRetrieveGamesPlayedByAParticularPlayer()
-        {
-            var game1 = new Game { Winner = "A", Loser = "B" };
-            var game2 = new Game { Winner = "A", Loser = "C" };
-            var game3 = new Game { Winner = "B", Loser = "C" };
-
-            Games.Initialise(new[] { game1, game2, game3 });
-
-            var expected = new List<Game>
-            {
-                game2,
-                game3
-            };
-
-            var player = new Player("C");
-
-            Assert.AreEqual(expected, Games.ByPlayer(player));
+            var games = _games.MostRecent(4);
+            Assert.That(games.Count(), Is.EqualTo(4));
         }
     }
 }

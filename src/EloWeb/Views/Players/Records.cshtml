@@ -30,7 +30,7 @@
     <table>
         <tr>
             <th>
-                @Html.ActionLink("Current Rating", "Rating", "Tables") (@Html.DisplayFor(m => m.CurrentTopRanked.First().Rating))
+                @Html.ActionLink("Current Rating", "Rating", "Tables") (@Html.DisplayFor(m => m.CurrentTopRanked.First().CurrentRating))
             </th>
         </tr>
         @foreach (var player in Model.CurrentTopRanked)

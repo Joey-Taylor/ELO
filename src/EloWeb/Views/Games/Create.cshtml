@@ -27,37 +27,32 @@
             }
         </table>
 
-
         <h3>New Game Details</h3>
         <table>
             <tr>
                 <div class="form-group">
                     <td>
-                        @Html.LabelFor(model => model.Winner, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.WinnerId, htmlAttributes: new { @class = "control-label col-md-2" })
                     </td>
                     <td>
                         <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.Winner, new SelectList(Model.Players))
-                            @Html.ValidationMessageFor(model => model.Winner, "", new { @class = "text-danger" })
+                            @Html.DropDownListFor(model => model.WinnerId, Model.Players)                            
                         </div>
                     </td>
                 </div>
 
                 <div class="form-group">
                     <td>
-                        @Html.LabelFor(model => model.Loser, htmlAttributes: new { @class = "control-label col-md-2"})                        
+                        @Html.LabelFor(model => model.LoserId, htmlAttributes: new { @class = "control-label col-md-2"})                        
                     </td>
                     <td>
                         <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.Loser, new SelectList(Model.Players))
-                            @Html.ValidationMessageFor(model => model.Loser, "", new { @class = "text-danger" })
+                            @Html.DropDownListFor(model => model.LoserId, Model.Players)
                         </div>
                     </td>
                 </div>
             </tr>
-        </table>
-        
-        <p/>
+        </table>              
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

@@ -8,17 +8,13 @@
 <h2>Players</h2>
 
 <h4>
-    @Html.ActionLink("Add Player", "Create")
+    @Html.ActionLink("Add Player", "Create", "Players", null, new { @class = "btn btn-default" })
 </h4>
 
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Rating)
-        </th>
+        <th>@Html.DisplayNameFor(model => model.Name)</th>
+        <th>@Html.DisplayNameFor(model => model.CurrentRating)</th>
         <th>
             Created
         </th>
@@ -30,7 +26,7 @@
             @Html.ActionLink(item.Name, "Details", "Players", new { name = item.Name }, null)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Rating)
+            @Html.DisplayFor(modelItem => item.CurrentRating)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CreatedTime, "CustomDate")

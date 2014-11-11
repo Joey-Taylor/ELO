@@ -8,35 +8,26 @@
 <h2>Best Ever Winning Streak</h2>
 
 <h4>
-@Html.ActionLink("Add Game", "Create", "Games") | @Html.ActionLink("Add Player", "Create", "Players")
+@Html.ActionLink("Add Game", "Create", "Games", null, new { @class = "btn btn-primary" }) | @Html.ActionLink("Add Player", "Create", "Players", null, new { @class = "btn btn-default" })
 </h4>
 
 <table class="table">
-    <tr>
-        <th>
-            Rank
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LongestWinningStreak)
-        </th>
-    </tr>
-
-@{ var rank = 1; }
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @rank
-        </td>
-        <td>
-            @Html.ActionLink(item.Name, "Details", "Players", new { name = item.Name }, null)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LongestWinningStreak)
-        </td>
-    </tr>
-    rank++;
-}
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>Longest winning streak</th>
+        </tr>
+    </thead>
+    <tbody>
+    @{ var rank = 1; }
+    @foreach (var item in Model) {
+        <tr>
+            <td>@rank</td>
+            <td>@Html.ActionLink(item.Name, "Details", "Players", new { name = item.Name }, null)</td>
+            <td>@item.LongestWinningStreak</td>
+        </tr>
+        rank++;
+    }
+    </tbody>
 </table>

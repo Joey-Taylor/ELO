@@ -1,5 +1,5 @@
 ﻿@using EloWeb.Models
-@model System.Collections.Generic.IEnumerable<EloWeb.Models.Game>
+@model System.Collections.Generic.IEnumerable<Game>
 
 @{
     ViewBag.Title = "Games";
@@ -9,15 +9,16 @@
 <h2>Games</h2>
 
 <h4>
-    @Html.ActionLink("Add Game", "Create")
+    @Html.ActionLink("Add Game", "Create", null, new {@class = "btn btn-primary"})
 </h4>
 
-<table class="table">
-    <tr>
-        <th>
-            Last 20 Games (Most Recent First)
-        </th>
-    </tr>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Last 20 Games (Most Recent First)</th>
+        </tr>
+    </thead>
+    <tbody>
     @foreach (var item in Model) {
         <tr>
             <td>
@@ -25,5 +26,5 @@
             </td>
         </tr>
     }
-
+    </tbody>
 </table>

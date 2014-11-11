@@ -7,78 +7,38 @@
 }
 
 <h2>@Model.Name</h2>
-
-<div>
-    <h3>Rating</h3>
-    <table class="table">
-        <tr>
-            <th>
-                Current                
-            </th>
-            <th>
-                Last Change
-            </th>
-            <th>
-                Lowest
-            </th>
-            <th>
-                Highest
-            </th>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayFor(m => m.Rating)
-            </td>
-            <td>
-                @Html.DisplayFor(m => m.LatestRatingChange)
-            </td>
-            <td>
-                @Html.DisplayFor(m => m.MinRating)
-            </td>
-            <td>
-                @Html.DisplayFor(m => m.MaxRating)
-            </td>
-        </tr>
-    </table>
+<div class="row">
+    <div class="col-md-12">
+        <h3>Rating</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Current</th>
+                    <th>Last Change</th>
+                    <th>Lowest</th>
+                    <th>Highest</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayFor(m => m.CurrentRating)</td>
+                    <td>@Html.DisplayFor(m => m.LatestRatingChange)</td>
+                    <td>@Html.DisplayFor(m => m.MinRating)</td>
+                    <td>@Html.DisplayFor(m => m.MaxRating)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-
-<hr/>
-
-<div>
-    <h3>Form</h3>
-    <table class="table">
-        <tr>
-            <th>
-                Recent
-            </th>
-            <th>
-                Win Rate
-            </th>
-            <th>
-                Current Consecutive Wins
-            </th>
-            <th>
-                Most Consecutive Wins
-            </th>
-        </tr>
-        <tr>
-            <td>
-                @Model.RecentForm
-            </td>
-            <td>
-                @Model.WinRate%
-            </td>
-            <td>
-                @Model.CurrentWinningStreak
-            </td>
-            <td>
-                @Model.LongestWinningStreak
-            </td>
-        </tr>        
-    </table>
-</div>
-
-
+<div class="row">
+    <div class="col-md-12">
+        <h3>Form</h3>
+        <table class="table">
+            <tr>
+                <th>Win Rate</th>
+                <th>Current Consecutive Wins</th>
+                <th>Most Consecutive Wins</th>
+            </tr>
 <div class="row">
     <div class="col-md-6 col-sm-12">
         <img class="centredImage" src="@Url.Action("PlayerEloByGames", "GraphGenerator", new { playerName = Model.Name })" />
@@ -87,33 +47,63 @@
         <img class="centredImage" src="@Url.Action("PlayerEloByTime", "GraphGenerator", new { playerName = Model.Name })" />
     </div>
 </div>
-
-<hr/>
-
-<div>
-    <h3>Games Won (@Model.GamesWon.Count())</h3>
-    <table class="table">
-        @foreach (var group in Model.WinsByOpponent.OrderByDescending(group => group.Count()))
-        {
             <tr>
-                <td>
-                    @Html.ActionLink(group.Key, "Details", "Players", new { name = group.Key }, null) (@group.Count())
-                </td>
+                <td>@Model.WinRate%</td>
+                <td>@Model.CurrentWinningStreak</td>
+                <td>@Model.LongestWinningStreak</td>
             </tr>
-        }
-    </table>
+        </table>
+    </div>
 </div>
-
-<div>
-    <h3>Games Lost (@Model.GamesLost.Count())</h3>
-    <table class="table">
-        @foreach (var group in Model.LossesByOpponent.OrderByDescending(group => group.Count()))
-        {
-            <tr>
-                <td>
-                    @Html.ActionLink(group.Key, "Details", "Players", new { name = group.Key }, null) (@group.Count())
-                </td>
-            </tr>
-        }
-    </table>
+<div class="row">
+    <div class="col-md-12">
+        <h3>Recent Games</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Winner</th>
+                    <th>Loser</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var game in Model.RecentGames(5))
+                {
+                    <tr>
+                        <td>@game.Winner.Name</td>
+                        <td>@game.Loser.Name</td>
+                        <td>@game.Date.ToString("g")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h3>Games Won (@Model.Wins.Count())</h3>
+        <table class="table">
+            @foreach (var group in Model.WinsByOpponent.OrderByDescending(group => group.Count()))
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(group.Key, "Details", "Players", new { name = group.Key }, null) (@group.Count())
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h3>Games Lost (@Model.Losses.Count())</h3>
+        <table class="table">
+            @foreach (var group in Model.LossesByOpponent.OrderByDescending(group => group.Count()))
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(group.Key, "Details", "Players", new { name = group.Key }, null) (@group.Count())
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
 </div>
