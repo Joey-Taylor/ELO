@@ -1,0 +1,13 @@
+﻿@using EloWeb.Models
+@model EloWeb.Models.GraphType
+@{
+    var values = Enum.GetValues(Model.GetType())
+        .Cast<GraphType>()
+        .Select(v => new SelectListItem
+        {
+            Selected = v.Equals(Model),
+            Text = v.ToDisplayString(),
+            Value = v.ToString()
+        });
+}
+@Html.DropDownList("", values)

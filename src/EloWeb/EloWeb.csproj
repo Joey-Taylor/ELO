@@ -121,6 +121,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\GamesController.cs" />
+    <Compile Include="Controllers\GraphGeneratorController.cs" />
     <Compile Include="Controllers\GraphsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlayersController.cs" />
@@ -129,11 +130,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CheckBoxViewModel.cs" />
     <Compile Include="Models\CreatePlayerViewModel.cs" />
     <Compile Include="Models\PoolLadderContext.cs" />
     <Compile Include="Models\EloCalc.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Services\Games.cs" />
+    <Compile Include="Models\GraphsViewModel.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Services\Players.cs" />
     <Compile Include="Models\Rating.cs" />
@@ -200,6 +203,9 @@
     <Content Include="Views\Shared\DisplayTemplates\Game.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CustomDateTime.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CustomDate.cshtml" />
+    <Content Include="Views\Graphs\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CheckBoxViewModel.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\GraphType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

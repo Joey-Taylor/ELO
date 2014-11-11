@@ -1,0 +1,44 @@
+﻿@using EloWeb.Models
+@model GraphsViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@{
+    var players = Model.Names.Where(p => p.Checked).Select(p => p.Text).ToArray();
+    var playerDictionary = new RouteValueDictionary();
+    for (var i = 0; i < players.Length; i++)
+    {
+        playerDictionary.Add(string.Format("playerNames[{0}]", i), players[i]);
+    }
+    playerDictionary.Add("width", 1150);
+    playerDictionary.Add("height", 700);
+    playerDictionary.Add("title", false);
+}
+
+<h2 class="text-center">@Model.GraphType.ToDisplayString()</h2>
+
+<div class="row top-buffer">
+    <div class="col-md-12">
+        <img class="centredImage" src="@Url.Action(Model.GraphType.ToActionName(), "GraphGenerator", playerDictionary)" />
+    </div> 
+</div>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        @Html.EditorFor(model => model.Names)
+    </div>
+    <div class="row top-buffer">
+        <div class="col-md-2">
+            @Html.EditorFor(model => model.GraphType)
+        </div>
+    </div>
+    <div class="row top-buffer">
+        <div class="col-md-1">
+            <input type="submit" value="Update" class="btn btn-default" />
+        </div>
+    </div>
+}
+
