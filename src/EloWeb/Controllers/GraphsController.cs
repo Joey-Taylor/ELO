@@ -10,7 +10,7 @@ namespace EloWeb.Controllers
         {
             if (model == null || model.Names == null)
             {
-                var names = Players.All()
+                var names = Players.Active()
                     .OrderBy(p => p.Name)
                     .Select(p => new CheckBoxViewModel{Checked = true, Text = p.Name})
                     .ToList();
