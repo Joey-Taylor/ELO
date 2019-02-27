@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EloWeb.Persist;
 using EloWeb.Utils;
 using WebGrease.Css.Extensions;
 
@@ -18,6 +19,7 @@ namespace EloWeb.Models
         public static void Add(Player player)
         {
             _players.Add(player.Name, player);
+            PlayersData.PersistPlayer(player);
         }
 
         public static void UpdateRatings(Game game)

@@ -1,4 +1,5 @@
 ﻿@using System.Linq
+@using EloWeb.Models
 @model EloWeb.Models.Player
 
 @{
@@ -7,13 +8,19 @@
 }
 
 <h2>@Model.Name</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <input type="submit" name="action" value="@(RetiredPlayers.IsRetired(Model.Name) ? "Enable" : "Retire")" class="btn btn-default" />
+}
 
 <div>
     <h3>Rating</h3>
     <table class="table">
         <tr>
             <th>
-                Current                
+                Current
             </th>
             <th>
                 Last Change
@@ -42,7 +49,7 @@
     </table>
 </div>
 
-<hr/>
+<hr />
 
 <div>
     <h3>Form</h3>
@@ -74,7 +81,7 @@
             <td>
                 @Model.LongestWinningStreak
             </td>
-        </tr>        
+        </tr>
     </table>
 </div>
 
@@ -88,7 +95,7 @@
     </div>
 </div>
 
-<hr/>
+<hr />
 
 <div>
     <h3>Games Won (@Model.GamesWon.Count())</h3>

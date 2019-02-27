@@ -25,5 +25,10 @@ namespace EloWeb.Persist
         {
             File.AppendAllText(_path, name + "\n");
         }
+
+        public static void PersistAll(IEnumerable<string> names)
+        {
+            File.WriteAllLines(_path, names);
+        }
     }
 }

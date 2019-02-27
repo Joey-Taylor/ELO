@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using EloWeb.Models;
-using EloWeb.Persist;
 using EloWeb.Utils;
 using EloWeb.ViewModels;
 
@@ -25,8 +24,22 @@ namespace EloWeb.Controllers
         // GET: Players/Details?name=......
         public ActionResult Details(string name)
         {
-            ViewData.Model = Players.PlayerByName(name);
-            return View();
+            if (Request.HttpMethod == "GET")
+            {
+                ViewData.Model = Players.PlayerByName(name);
+                return View();
+            }
+
+            if (Request.Form["action"] == "Retire")
+            {
+                RetiredPlayers.RetirePlayer(name);
+            }
+            else if (Request.Form["action"] == "Enable")
+            {
+                RetiredPlayers.UnRetirePlayer(name);
+            }
+
+            return Redirect("~/Players/Details?name=" + name);
         }
 
         // GET: Players/Records
@@ -70,7 +83,6 @@ namespace EloWeb.Controllers
         {
             var newPlayer = new Player(player.Name);
             Players.Add(newPlayer);
-            PlayersData.PersistPlayer(newPlayer);         
             return Redirect("~/Players");
         }
     }
