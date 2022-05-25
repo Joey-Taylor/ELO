@@ -1,13 +1,14 @@
 import React from 'react';
 import {Player} from "../models/Player";
 import styled from "styled-components";
+import {backgroundForRank, player1Highlight, player2Highlight, transparent, white} from "./colours";
 
 type PlayerNumber = 1 | 2 | null;
 
 export type Params = {
   player: Player;
   number: PlayerNumber;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const Container = styled.div`
@@ -36,23 +37,11 @@ type RankProps = {
     rank: number;
 }
 
-const backgroundForRank = (rank: number) => {
-    switch(rank) {
-        case 1:
-            return "gold";
-        case 2:
-            return "silver";
-        case 3:
-            return "#CD7F32";
-        default: 
-            return "green";
-    }
-}
 const Rank = styled.div<RankProps>`
     position: absolute;
     background: ${p => backgroundForRank(p.rank)};
     border-radius: 50%;
-    color: white;
+    color: ${white};
     width: 23%;
     height: 23%;
     text-align: center;
@@ -74,7 +63,7 @@ const Image = styled.img<ImageProps>`
     width: 100%;
     height: 100%;
     outline-width: 7px;
-    outline-color: ${p => p.number === 1 ? "red" : p.number === 2 ? "blue" : "transparent"};
+    outline-color: ${p => p.number === 1 ? player1Highlight : p.number === 2 ? player2Highlight : transparent};
     outline-style: solid;
     transition: outline-color 0.5s ease;
     @media (min-width: 650px) {
