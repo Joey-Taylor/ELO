@@ -5,7 +5,7 @@ const dummyPlayer = { name: "Dummy", image: "http://example.com" }
 describe('players.ts', () => {
   describe('generatePlayers', () => {
     it('returns 5 players', () => {
-      expect(generatePlayers().length).toBe(5);
+      expect(generatePlayers(5).length).toBe(5);
     });
   });
 

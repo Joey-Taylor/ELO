@@ -14,20 +14,19 @@ export type Game = {
     loser: UnrankedPlayer
 }
 
-const generatePlayer = (id: number, name: string) => ({
-    id, name,
-    image: `http://placekitten.com/300/${290 + id}`,
-    rating: 560 + id * 37
-})
+const forenames = ["David", "Thea", "Maxwell", "Liam", "Harry"]
+const initials = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
-export const generatePlayers = () : UnrankedPlayer[] => {
-    return [
-            generatePlayer(1, "David"),
-            generatePlayer(2, "Liam H."),
-            generatePlayer(3, "Maxwell"),
-            generatePlayer(4, "Thea"),
-            generatePlayer(5, "Harry"),
-    ]
+const generateName = (id: number) => { return `${forenames[id % forenames.length]} ${initials[id % initials.length]}` };
+
+const generatePlayer = (id: number, max: number) => ({
+    id, name: generateName(id),
+    image: `http://placekitten.com/300/${300 - max / 2 + id}`,
+    rating: 1000 - (max * 37 / 2) + id * 37
+});
+
+export const generatePlayers = (count: number) : UnrankedPlayer[] => {
+    return Array.from(Array(count)).map((n, id) => generatePlayer(id, count));
 }
 
 const comp = (left: number, right: number) => Number(left > right) - Number(left < right);
