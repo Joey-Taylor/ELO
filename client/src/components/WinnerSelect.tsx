@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {Game, Player, UnrankedPlayer} from "../models/Player";
+import {Game, Player} from "../models/Player";
 import {PlayerButton} from "./PlayerButton";
 import styled from "styled-components";
-import {transparentWhite, white} from "./colours";
+import {player1Background, player2Background, transparentWhite, white, winnerBackground} from "./colours";
 
 export type Params = {
   player1: Player | null;
@@ -32,12 +32,12 @@ const PlayerContainer = styled.div`
 const Player1Container = styled(PlayerContainer)<{show: boolean, winner: boolean}>`
   width: calc(50% + 1px);
   left: ${p => p.show ? "0" : "calc(-50% - 1px)"};
-  background-color: ${p => p.winner ? "gold" : "darkred"};
+  background-color: ${p => p.winner ? winnerBackground : player1Background};
 `
 
 const Player2Container = styled(PlayerContainer)<{show: boolean, winner: boolean}>`
   right: ${p => p.show ? "0" : "-50%"};
-  background-color: ${p => p.winner ? "gold" : "darkblue"};
+  background-color: ${p => p.winner ? winnerBackground : player2Background};
 `
 
 const CentredDiv = styled.div<{show: boolean}>`
@@ -89,7 +89,7 @@ type PlayerAndWinButtonProps = {
     player: Player | null, show: boolean, number: 1 | 2, winner: 1 | 2 | null, onWin: () => void
 }
 const PlayerAndWinButton = ({ player, show, number, winner, onWin } : PlayerAndWinButtonProps) => {
-    const Container = number == 1 ? Player1Container : Player2Container;
+    const Container = number === 1 ? Player1Container : Player2Container;
     return (
         <Container show={show} winner={winner === number}>
             { player 

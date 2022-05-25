@@ -1,4 +1,4 @@
-﻿export const player1Highlight = "red";
+export const player1Highlight = "red";
 export const player1Background = "darkred";
 
 export const player2Highlight = "blue";
