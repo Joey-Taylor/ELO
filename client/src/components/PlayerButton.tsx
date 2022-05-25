@@ -7,21 +7,18 @@ type PlayerNumber = 1 | 2 | null;
 export type Params = {
   player: Player;
   number: PlayerNumber;
-  onSelect: () => void;
-  inMatch: boolean;
+  onClick: () => void;
 }
 
-const Container = styled.div<{inMatch: boolean, number: PlayerNumber}>`
+const Container = styled.div`
     text-align: center;
     width: 110px;
     padding: 10px;
     display: inline-block;
-    opacity: ${p => p.inMatch && !p.number ? "0": "100%"};
     @media (min-width: 650px) {
         width: 175px;
         padding: 20px;
     }
-    transition: opacity 0.5s ease;
 `
 
 const ImageAndRank = styled.div`
@@ -48,7 +45,7 @@ const backgroundForRank = (rank: number) => {
         case 3:
             return "#CD7F32";
         default: 
-            return "red";
+            return "green";
     }
 }
 const Rank = styled.div<RankProps>`
@@ -91,12 +88,12 @@ const Name = styled.div`
 `
 const Rating = styled.div`
     text-align: center;
-    color: #555
+    color: #777
 `
 
-export const PlayerButton = ({player, inMatch, number, onSelect}: Params) => {
+export const PlayerButton = ({player, number, onClick}: Params) => {
   return (
-      <Container onClick={onSelect} number={number} inMatch={inMatch}>
+      <Container onClick={onClick}>
           <ImageAndRank>
               <Rank rank={player.rank}><RankNumber>{player.rank}</RankNumber></Rank>
               <Image src={player.image} alt={player.name} number={number} />

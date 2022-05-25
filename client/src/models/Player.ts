@@ -1,17 +1,17 @@
 export type UnrankedPlayer = {
-    id: number,
-    name: string,
-    image: string,
-    rating: number
+    readonly id: number,
+    readonly name: string,
+    readonly image: string,
+    readonly rating: number
 }
 
 export type Player = UnrankedPlayer & {
-    rank: number
+    readonly rank: number
 }
 
 export type Game = {
-    winner: UnrankedPlayer,
-    loser: UnrankedPlayer
+    readonly winner: UnrankedPlayer,
+    readonly loser: UnrankedPlayer
 }
 
 const forenames = ["David", "Thea", "Max", "Liam", "Harry", "Sam", "Alex"]
@@ -58,7 +58,7 @@ const volatility = 400;
 const eloFactor = 50;
 
 export const updateWithGame = (players: UnrankedPlayer[], game: Game): Player[] => {
-    const difference = game.loser.rating = game.winner.rating;
+    const difference = game.loser.rating - game.winner.rating;
     const expected = 1 / (1 + Math.pow(10, difference/volatility))
     const exchanged = Math.round(eloFactor * (1- expected));
 
