@@ -14,10 +14,10 @@ export type Game = {
     loser: UnrankedPlayer
 }
 
-const forenames = ["David", "Thea", "Maxwell", "Liam", "Harry"]
-const initials = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+const forenames = ["David", "Thea", "Max", "Liam", "Harry", "Sam", "Alex"]
+const initials = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "T", "U", "V", "W"];
 
-const generateName = (id: number) => { return `${forenames[id % forenames.length]} ${initials[id % initials.length]}` };
+const generateName = (id: number) => { return `${forenames[id % forenames.length]} ${initials[id % initials.length]}.` };
 
 const generatePlayer = (id: number, max: number) => ({
     id, name: generateName(id),
